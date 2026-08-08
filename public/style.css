@@ -87,10 +87,6 @@ tbody tr:hover { background: rgba(255,255,255,.025); }
 .champion-row.expanded .expand-mark { transform: rotate(180deg); }
 .champion-icon, .champion-fallback { width: 38px; height: 38px; border-radius: 8px; border: 1px solid rgba(215,173,91,.27); background: #252b3a; object-fit: cover; }
 .champion-fallback { display: grid; place-items: center; color: var(--muted); font-size: 10px; }
-.rate-cell { min-width: 120px; }
-.rate-cell span { display: block; margin-bottom: 5px; }
-.rate-cell i { display: block; width: 95px; height: 3px; border-radius: 2px; background: #2b3140; overflow: hidden; }
-.rate-cell b { display: block; height: 100%; background: linear-gradient(90deg, var(--cyan), #6e9ef5); }
 .wins { color: var(--win); }
 .losses { color: var(--loss); }
 .winrate { display: inline-block; min-width: 61px; padding: 5px 8px; border-radius: 6px; text-align: center; font-weight: 800; }
