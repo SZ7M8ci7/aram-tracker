@@ -1,0 +1,11 @@
+node_modules/
+.vendor/
+**/__pycache__/
+*.pyc
+server-test.log*
+data/history.json
+data/champions.json
+data/champions.meta.json
+data/playaram-*.json
+!data/playaram-dictionary.json
+data/playaram-profiles/

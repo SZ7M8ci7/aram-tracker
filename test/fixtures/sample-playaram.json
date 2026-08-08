@@ -1,0 +1,12 @@
+{
+  "profile": { "riotId": "sample#TEST", "name": "sample", "region": "JP" },
+  "fetchedAt": "2026-08-08T10:00:00.000Z",
+  "summaries": [
+    { "gameId": 1, "map": "ARAM: Mayhem", "result": "Victory", "resultCode": "win", "relativeTime": "1h ago", "durationText": "15m 30s", "champion": "Jinx", "level": 18, "augments": ["Critical Missile"], "items": ["Infinity Edge"], "kills": 10, "deaths": 5, "assists": 20, "teams": [["sample", "friend"], ["enemy"]] },
+    { "gameId": 2, "map": "ARAM: Mayhem", "result": "Defeat", "resultCode": "loss", "relativeTime": "2h ago", "durationText": "16m 10s", "champion": "Lux", "level": 17, "augments": ["Magic Missile"], "items": ["Rabadon's Deathcap"], "kills": 5, "deaths": 8, "assists": 15, "teams": [["sample", "friend"], ["enemy"]] }
+  ],
+  "details": [
+    { "gameId": 1, "overview": { "teams": [{ "side": "BLUE", "result": "Victory", "kills": 30, "players": [{ "name": "sample", "champion": "Jinx", "level": 18, "kills": 10, "deaths": 5, "assists": 20, "kda": 6, "damageDealt": 40000, "damageTaken": 20000, "gold": 15000, "cs": 50, "augments": ["Critical Missile"], "items": ["Infinity Edge"] }] }, { "side": "RED", "result": "Defeat", "kills": 20, "players": [] }] } },
+    { "gameId": 2, "overview": { "teams": [{ "side": "BLUE", "result": "Defeat", "kills": 20, "players": [{ "name": "sample", "champion": "Lux", "level": 17, "kills": 5, "deaths": 8, "assists": 15, "kda": 2.5, "damageDealt": 30000, "damageTaken": 15000, "gold": 13000, "cs": 40, "augments": ["Magic Missile"], "items": ["Rabadon's Deathcap"] }] }, { "side": "RED", "result": "Victory", "kills": 30, "players": [] }] } }
+  ]
+}

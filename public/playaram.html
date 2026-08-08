@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ARAMトラッカー</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./playaram.css" />
+  </head>
+  <body class="playaram-page">
+    <div class="page-glow"></div>
+    <main class="shell playaram-shell">
+      <header class="tracker-header">
+        <div class="tracker-title"><h1>ARAMトラッカー</h1><span id="activeProfile" class="profile-chip">JSON未選択</span></div>
+        <div class="header-actions">
+          <div id="compactSummary" class="compact-summary hidden" aria-label="集計概要"><span>試合 <strong id="playaramTotal">—</strong></span><span>勝率 <strong id="playaramWinRate">—</strong></span><span id="playaramWinLoss">—</span></div>
+          <label class="file-button" for="jsonUpload">JSONファイルを開く</label>
+          <input id="jsonUpload" class="visually-hidden-file" type="file" accept="application/json,.json" />
+        </div>
+      </header>
+
+      <section id="playaramNotice" class="notice hidden"></section>
+
+      <section id="emptyState" class="panel upload-empty-state">
+        <div class="upload-symbol" aria-hidden="true">JSON</div>
+        <h2>戦績JSONを選択してください</h2>
+        <p>ファイルを選択すると、この画面上で統計を集計します。</p>
+        <label class="file-button large" for="jsonUpload">JSONファイルを選択</label>
+      </section>
+
+      <div id="dataContent" class="hidden">
+
+      <section class="panel playaram-panel stats-panel">
+        <div class="panel-heading stats-heading">
+          <div><p class="eyebrow">PERFORMANCE</p><h2>統計一覧</h2></div>
+          <div class="primary-tools"><label>モード<select id="mapFilter"><option value="mayhem">ARAM: Mayhem</option><option value="aram">通常ARAM</option><option value="all">すべて</option></select></label><input id="playaramSearch" class="playaram-search" type="search" placeholder="キャラ名を検索" /></div>
+        </div>
+        <form id="filterForm" class="stats-filter-bar">
+          <label>最低試合数<input id="minGames" type="number" min="0" step="1" placeholder="0" /></label>
+          <label>最低勝率<input id="minWinRate" type="number" min="0" max="100" step="1" placeholder="0%" /></label>
+          <label>開始日<input id="fromDate" type="date" /></label>
+          <label>終了日<input id="toDate" type="date" /></label>
+          <button class="button-primary" type="submit">適用</button><button class="button-ghost" id="resetFilters" type="button">リセット</button>
+        </form>
+        <div class="tab-bar" role="tablist"><button class="tab-button active" data-tab="champions" role="tab" aria-selected="true">キャラ</button><button class="tab-button" data-tab="items" role="tab" aria-selected="false">アイテム</button><button class="tab-button" data-tab="augments" role="tab" aria-selected="false">オーグメント</button></div>
+        <div id="championTab" class="tab-panel active" role="tabpanel">
+          <div class="table-wrap"><table class="playaram-table"><thead><tr>
+            <th data-sort="rank">#</th><th data-sort="champion">キャラクター</th><th data-sort="games">試合</th><th data-sort="usageRate">使用率</th><th data-sort="wins">勝敗</th><th data-sort="winRate">勝率</th><th data-sort="avgKda">平均 K / D / A</th><th data-sort="kdaRatio">KDAレシオ</th><th data-sort="avgDamageDealt">平均ダメージ</th><th data-sort="avgGold">平均ゴールド</th><th data-sort="avgDurationSeconds">平均時間</th><th data-sort="lastOrder">最終使用</th>
+          </tr></thead><tbody id="playaramChampionRows"><tr><td colspan="12" class="empty">読み込み中…</td></tr></tbody></table></div>
+        </div>
+        <div id="itemTab" class="tab-panel" role="tabpanel" hidden><div class="table-wrap"><table class="playaram-table item-table"><thead><tr><th data-item-sort="item">アイテム</th><th data-item-sort="games">購入試合</th><th data-item-sort="purchaseRate">購入率</th><th data-item-sort="wins">勝敗</th><th data-item-sort="winRate">勝率</th><th data-item-sort="avgKdaRatio">購入時KDAレシオ</th></tr></thead><tbody id="playaramItemRows"></tbody></table></div></div>
+        <div id="augmentTab" class="tab-panel" role="tabpanel" hidden><div class="table-wrap"><table class="playaram-table item-table"><thead><tr><th data-augment-sort="augment">オーグメント</th><th data-augment-sort="games">取得試合</th><th data-augment-sort="acquisitionRate">取得率</th><th data-augment-sort="wins">勝敗</th><th data-augment-sort="winRate">勝率</th><th data-augment-sort="avgKdaRatio">取得時KDAレシオ</th></tr></thead><tbody id="playaramAugmentRows"></tbody></table></div></div>
+      </section>
+
+      <section class="panel playaram-panel"><div class="panel-heading"><div><p class="eyebrow">RECENT MATCHES</p><h2>最近の試合</h2></div><span class="muted">カードをクリックするとOverview詳細</span></div><div id="playaramRecent" class="playaram-recent"></div></section>
+
+      <section class="two-column-panels">
+        <section class="panel playaram-panel"><div class="panel-heading"><div><p class="eyebrow">UNUSED CHAMPIONS</p><h2>未使用キャラ</h2></div><span id="championCountNote" class="muted">—</span></div><div id="unusedChampions" class="unused-list"></div></section>
+        <section class="panel playaram-panel"><div class="panel-heading"><div><p class="eyebrow">PARTNERS</p><h2>一緒にプレイしたユーザー</h2></div><span class="muted">10試合以上</span></div><div class="table-wrap"><table class="playaram-table teammate-table"><thead><tr><th data-teammate-sort="name">ユーザー</th><th data-teammate-sort="games">試合</th><th data-teammate-sort="wins">勝敗</th><th data-teammate-sort="winRate">勝率</th></tr></thead><tbody id="playaramTeammates"></tbody></table></div></section>
+      </section>
+
+      <section class="panel playaram-panel chart-panel">
+        <div class="panel-heading"><div><p class="eyebrow">CUMULATIVE WIN RATE</p><h2>累積勝率の推移</h2></div><span id="chartCurrentRate" class="muted">—</span></div>
+        <div class="chart-wrap"><canvas id="winRateChart" height="240"></canvas><p id="chartEmpty" class="empty hidden">グラフに表示できる試合がありません。</p></div>
+      </section>
+      </div>
+
+      <footer><p id="playaramDataSource">JSONを選択すると、この画面上で集計します。</p><p>外部の戦績サービスやゲームクライアントには接続しません。</p></footer>
+    </main>
+    <script src="./playaram-core.js" defer></script>
+    <script src="./playaram.js" defer></script>
+  </body>
+</html>

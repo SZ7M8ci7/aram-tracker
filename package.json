@@ -1,0 +1,15 @@
+{
+  "name": "playaram-local-stats",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local-only ARAM Mayhem stats dashboard backed by saved JSON",
+  "type": "commonjs",
+  "scripts": {
+    "build": "node scripts/build-static.js",
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "level": "8.0.1"
+  }
+}
