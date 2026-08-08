@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ARAMトラッカー</title>
     <link rel="stylesheet" href="./style.css" />
-    <link rel="stylesheet" href="./playaram.css?v=20260809-2" />
+    <link rel="stylesheet" href="./playaram.css?v=20260809-3" />
   </head>
   <body class="playaram-page">
     <div class="page-glow"></div>
@@ -60,14 +60,14 @@
       </section>
 
       <section class="panel playaram-panel chart-panel">
-        <div class="panel-heading"><div><p class="eyebrow">CUMULATIVE WIN RATE</p><h2>累積勝率の推移</h2></div><span id="chartCurrentRate" class="muted">—</span></div>
+        <div class="panel-heading"><div><p class="eyebrow">WIN RATE TREND</p><h2>勝率の推移</h2></div><div class="chart-legend"><span><i class="cumulative"></i>累積 <strong id="chartCurrentRate">—</strong></span><span><i class="rolling"></i>100試合移動平均 <strong id="chartRollingRate">—</strong></span></div></div>
         <div class="chart-wrap"><canvas id="winRateChart" height="240"></canvas><p id="chartEmpty" class="empty hidden">グラフに表示できる試合がありません。</p></div>
       </section>
       </div>
 
       <footer><p id="playaramDataSource">JSONを選択すると、この画面上で集計します。</p><p>外部の戦績サービスやゲームクライアントには接続しません。</p></footer>
     </main>
-    <script src="./playaram-core.js" defer></script>
-    <script src="./playaram.js" defer></script>
+    <script src="./playaram-core.js?v=20260809-3" defer></script>
+    <script src="./playaram.js?v=20260809-3" defer></script>
   </body>
 </html>

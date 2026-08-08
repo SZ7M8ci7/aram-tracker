@@ -17,6 +17,21 @@
     const kills = Number(focus?.kills ?? summary.kills ?? 0), deaths = Number(focus?.deaths ?? summary.deaths ?? 0), assists = Number(focus?.assists ?? summary.assists ?? 0);
     return { gameId: Number(summary.gameId), map: summary.map || "ARAM: Mayhem", result: summary.result || (summary.resultCode === "win" ? "Victory" : "Defeat"), victory: summary.resultCode === "win" || summary.result === "Victory", relativeTime: summary.relativeTime || null, playedAt: parseRelativeTime(summary.relativeTime, anchor).toISOString(), dateApproximate: true, durationText: summary.durationText || null, durationSeconds: parseDuration(summary.durationText), champion: summary.champion || focus?.champion || "Unknown", level: Number(summary.level || focus?.level || 0) || null, spells: summary.spells || focus?.spells || [], augments: summary.augments || focus?.augments || [], items: [...new Set(summary.items || focus?.items || [])], kills, deaths, assists, kdaRatio: focus?.kda == null ? (kills + assists) / Math.max(1, deaths) : Number(focus.kda), damageDealt: focus?.damageDealt ?? null, damageTaken: focus?.damageTaken ?? null, gold: focus?.gold ?? null, cs: focus?.cs ?? summary.cs ?? null, badges: summary.badges || [], teammates: [...new Set(ownTeam.filter((name) => normalizeName(name) !== normalizeName(playerName)))], teams: summary.teams || [], detailed: Boolean(focus), order: index };
   }
+  function calculateWinRateSeries(matches, windowSize = 100) {
+    const size = Math.max(1, Math.floor(Number(windowSize) || 100));
+    let cumulativeWins = 0;
+    let windowWins = 0;
+    return matches.map((match, index) => {
+      const win = match.victory ? 1 : 0;
+      cumulativeWins += win;
+      windowWins += win;
+      if (index >= size) windowWins -= matches[index - size].victory ? 1 : 0;
+      return {
+        cumulativeRate: cumulativeWins / (index + 1) * 100,
+        movingRate: index + 1 >= size ? windowWins / size * 100 : null,
+      };
+    });
+  }
   function validateData(value) { if (!Array.isArray(value?.summaries) || !Array.isArray(value?.details)) throw new Error("summaries と details を含むJSONを選択してください。"); return value; }
   function buildStatsFromData(input, query = {}, catalog = { champions: {} }) {
     const data = validateData(input), details = new Map(data.details.map((detail) => [Number(detail.gameId), detail])), anchor = Date.parse(data.fetchedAt || new Date().toISOString()), playerName = focusName(data);
@@ -46,5 +61,5 @@
     return { profile: data.profile, source: data.source, fetchedAt: data.fetchedAt, filters, summary: { totalGames: entries.length, wins, losses: entries.length - wins, winRate: entries.length ? wins / entries.length * 100 : 0, detailedGames: entries.filter((entry) => entry.detailed).length, uniqueChampions: championRows.length, approximateDates: true }, champions: championRows, items: itemRows, augments: augmentRows, teammates: teammateRows, unusedChampions, matches: entries, recent: entries.slice(0, 60), maps: { mayhem: periodEntries.filter((entry) => mapMatches(entry, "mayhem")).length, aram: periodEntries.filter((entry) => mapMatches(entry, "aram")).length, all: periodEntries.length } };
   }
   function getMatchFromData(input, gameId) { const data = validateData(input), index = data.summaries.findIndex((summary) => Number(summary.gameId) === Number(gameId)); if (index < 0) return null; const detail = data.details.find((entry) => Number(entry.gameId) === Number(gameId)); if (!detail?.overview) return null; return { summary: entryFromSummary(data.summaries[index], detail, index, Date.parse(data.fetchedAt || new Date().toISOString()), focusName(data)), overview: detail.overview, profile: data.profile }; }
-  return { buildStatsFromData, getMatchFromData, parseRelativeTime, validateData };
+  return { buildStatsFromData, calculateWinRateSeries, getMatchFromData, parseRelativeTime, validateData };
 });

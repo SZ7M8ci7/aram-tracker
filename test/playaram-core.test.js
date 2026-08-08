@@ -22,6 +22,17 @@ test("static browser core restores match Overview", () => {
   assert.ok(match?.overview?.teams?.length);
 });
 
+test("100-match moving win rate starts at the 100th match", () => {
+  const matches = Array.from({ length: 105 }, (_, index) => ({ victory: index >= 100 }));
+  const series = core.calculateWinRateSeries(matches, 100);
+
+  assert.equal(series[98].movingRate, null);
+  assert.equal(series[99].movingRate, 0);
+  assert.equal(series[100].movingRate, 1);
+  assert.equal(series[104].movingRate, 5);
+  assert.equal(series[104].cumulativeRate, 5 / 105 * 100);
+});
+
 test("date range recalculates every dashboard statistic", () => {
   const rangedData = structuredClone(data);
   rangedData.summaries[0].relativeTime = "1d ago";
