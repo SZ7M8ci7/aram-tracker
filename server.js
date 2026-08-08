@@ -205,7 +205,7 @@ async function buildStatsFromData(data, query = {}) {
   const augments = new Map();
   const teammates = new Map();
   for (const entry of entries) {
-    const champion = champions.get(entry.champion) || { champion: entry.champion, games: 0, wins: 0, losses: 0, detailedGames: 0, kills: 0, deaths: 0, assists: 0, damageDealt: 0, damageTaken: 0, gold: 0, cs: 0, duration: 0, durationGames: 0, lastOrder: entry.order, lastPlayed: entry.relativeTime };
+    const champion = champions.get(entry.champion) || { champion: entry.champion, games: 0, wins: 0, losses: 0, detailedGames: 0, kills: 0, deaths: 0, assists: 0, damageDealt: 0, damageTaken: 0, gold: 0, cs: 0, dpmTotal: 0, dpmGames: 0, gpmTotal: 0, gpmGames: 0, duration: 0, durationGames: 0, lastOrder: entry.order, lastPlayed: entry.relativeTime };
     champion.games += 1;
     champion.wins += entry.victory ? 1 : 0;
     champion.losses += entry.victory ? 0 : 1;
@@ -213,6 +213,8 @@ async function buildStatsFromData(data, query = {}) {
     if (entry.detailed) {
       champion.detailedGames += 1; champion.kills += entry.kills; champion.deaths += entry.deaths; champion.assists += entry.assists;
       champion.damageDealt += entry.damageDealt || 0; champion.damageTaken += entry.damageTaken || 0; champion.gold += entry.gold || 0; champion.cs += entry.cs || 0;
+      if (entry.durationSeconds > 0 && entry.damageDealt != null) { champion.dpmTotal += entry.damageDealt * 60 / entry.durationSeconds; champion.dpmGames += 1; }
+      if (entry.durationSeconds > 0 && entry.gold != null) { champion.gpmTotal += entry.gold * 60 / entry.durationSeconds; champion.gpmGames += 1; }
     }
     if (entry.durationSeconds != null) { champion.duration += entry.durationSeconds; champion.durationGames += 1; }
     champions.set(entry.champion, champion);
@@ -236,8 +238,8 @@ async function buildStatsFromData(data, query = {}) {
   const championRows = [...champions.values()].map((row) => ({
     ...row, usageRate: entries.length ? row.games / entries.length * 100 : 0, winRate: row.games ? row.wins / row.games * 100 : 0,
     avgKills: row.detailedGames ? row.kills / row.detailedGames : null, avgDeaths: row.detailedGames ? row.deaths / row.detailedGames : null,
-    avgAssists: row.detailedGames ? row.assists / row.detailedGames : null, kdaRatio: row.detailedGames ? ((row.kills / row.detailedGames) + (row.assists / row.detailedGames)) / Math.max(0.01, row.deaths / row.detailedGames) : null, avgDamageDealt: row.detailedGames ? row.damageDealt / row.detailedGames : null,
-    avgDamageTaken: row.detailedGames ? row.damageTaken / row.detailedGames : null, avgGold: row.detailedGames ? row.gold / row.detailedGames : null,
+    avgAssists: row.detailedGames ? row.assists / row.detailedGames : null, kdaRatio: row.detailedGames ? ((row.kills / row.detailedGames) + (row.assists / row.detailedGames)) / Math.max(0.01, row.deaths / row.detailedGames) : null, avgDamageDealt: row.detailedGames ? row.damageDealt / row.detailedGames : null, avgDpm: row.dpmGames ? row.dpmTotal / row.dpmGames : null,
+    avgDamageTaken: row.detailedGames ? row.damageTaken / row.detailedGames : null, avgGold: row.detailedGames ? row.gold / row.detailedGames : null, avgGpm: row.gpmGames ? row.gpmTotal / row.gpmGames : null,
     avgCs: row.detailedGames ? row.cs / row.detailedGames : null, avgDurationSeconds: row.durationGames ? row.duration / row.durationGames : null,
   })).filter((row) => row.games >= minGames && row.winRate >= minWinRate).sort((a, b) => b.games - a.games || b.winRate - a.winRate || a.lastOrder - b.lastOrder);
   const itemRows = [...items.values()].map((row) => ({ ...row, purchaseRate: entries.length ? row.games / entries.length * 100 : 0, winRate: row.games ? row.wins / row.games * 100 : 0, avgKdaRatio: row.kdaGames ? row.kdaTotal / row.kdaGames : null })).filter((row) => row.games >= minGames && row.winRate >= minWinRate).sort((a, b) => b.games - a.games || b.winRate - a.winRate);

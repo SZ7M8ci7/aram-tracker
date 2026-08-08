@@ -53,6 +53,8 @@ test("date range recalculates every dashboard statistic", () => {
   assert.equal(stats.champions[0].avgKills, 10);
   assert.equal(stats.champions[0].avgDeaths, 5);
   assert.equal(stats.champions[0].avgAssists, 20);
+  assert.equal(stats.champions[0].avgDpm, 40000 * 60 / 930);
+  assert.equal(stats.champions[0].avgGpm, 15000 * 60 / 930);
   assert.deepEqual(stats.items.map((row) => row.item), ["Infinity Edge"]);
   assert.deepEqual(stats.augments.map((row) => row.augment), ["Critical Missile"]);
   assert.deepEqual(stats.matches.map((row) => row.gameId), [1]);
