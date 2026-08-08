@@ -64,7 +64,12 @@
 .damage-cell { display: flex; align-items: center; gap: 8px; min-width: 0; white-space: nowrap; }
 .unused-list { display: flex; flex-wrap: wrap; gap: 7px; padding: 4px 20px 20px; }
 .unused-card { display: flex; align-items: center; gap: 6px; padding: 6px 8px 6px 6px; border: 1px solid var(--border); border-radius: 7px; color: var(--muted); font-size: 11px; }
-.teammate-table { min-width: 380px; }
+.teammate-table-wrap { overflow-x: hidden; }
+.playaram-table.teammate-table { min-width: 0; table-layout: fixed; }
+.teammate-table th:first-child, .teammate-table td:first-child { width: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.teammate-table th:nth-child(2), .teammate-table td:nth-child(2) { width: 64px; }
+.teammate-table th:nth-child(3), .teammate-table td:nth-child(3) { width: 100px; }
+.teammate-table th:nth-child(4), .teammate-table td:nth-child(4) { width: 82px; }
 .hidden { display: none !important; }
 .detail-build { padding: 14px 20px 20px; border-top: 1px solid var(--border); }
 .detail-build h2 { margin: 0 0 10px; font-size: 14px; }
