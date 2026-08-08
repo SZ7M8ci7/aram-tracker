@@ -21,3 +21,30 @@ test("static browser core restores match Overview", () => {
   const match = core.getMatchFromData(data, data.summaries.find((entry) => data.details.some((detail) => Number(detail.gameId) === Number(entry.gameId)))?.gameId);
   assert.ok(match?.overview?.teams?.length);
 });
+
+test("date range recalculates every dashboard statistic", () => {
+  const rangedData = structuredClone(data);
+  rangedData.summaries[0].relativeTime = "1d ago";
+  rangedData.summaries[1].relativeTime = "2d ago";
+  const stats = core.buildStatsFromData(rangedData, { map: "mayhem", from: "2026-08-07", to: "2026-08-07" }, { champions });
+
+  assert.deepEqual(stats.summary, {
+    totalGames: 1,
+    wins: 1,
+    losses: 0,
+    winRate: 100,
+    detailedGames: 1,
+    uniqueChampions: 1,
+    approximateDates: true,
+  });
+  assert.equal(stats.champions.length, 1);
+  assert.equal(stats.champions[0].champion, "Jinx");
+  assert.equal(stats.champions[0].avgKills, 10);
+  assert.equal(stats.champions[0].avgDeaths, 5);
+  assert.equal(stats.champions[0].avgAssists, 20);
+  assert.deepEqual(stats.items.map((row) => row.item), ["Infinity Edge"]);
+  assert.deepEqual(stats.augments.map((row) => row.augment), ["Critical Missile"]);
+  assert.deepEqual(stats.matches.map((row) => row.gameId), [1]);
+  assert.deepEqual(stats.recent.map((row) => row.gameId), [1]);
+  assert.deepEqual(stats.maps, { mayhem: 1, aram: 0, all: 1 });
+});

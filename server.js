@@ -172,12 +172,12 @@ function entryFromSummary(summary, detail, index, anchor, playerName) {
   };
 }
 
-function filterEntries(entries, filters) {
+function filterEntries(entries, filters, includeMap = true) {
   const from = filters.from ? new Date(`${filters.from}T00:00:00+09:00`).getTime() : null;
   const to = filters.to ? new Date(`${filters.to}T23:59:59+09:00`).getTime() : null;
   return entries.filter((entry) => {
     const time = Date.parse(entry.playedAt);
-    return mapMatches(entry, filters.map) && (from == null || time >= from) && (to == null || time <= to);
+    return (!includeMap || mapMatches(entry, filters.map)) && (from == null || time >= from) && (to == null || time <= to);
   });
 }
 
@@ -196,7 +196,8 @@ async function buildStatsFromData(data, query = {}) {
   };
   const playerName = focusName(data);
   const allEntries = data.summaries.map((summary, index) => entryFromSummary(summary, details.get(Number(summary.gameId)), index, anchor, playerName));
-  const entries = filterEntries(allEntries, filters);
+  const periodEntries = filterEntries(allEntries, filters, false);
+  const entries = periodEntries.filter((entry) => mapMatches(entry, filters.map));
   const minGames = Math.max(0, Number(query.minGames || 0));
   const minWinRate = Math.min(100, Math.max(0, Number(query.minWinRate || 0)));
   const champions = new Map();
@@ -249,7 +250,7 @@ async function buildStatsFromData(data, query = {}) {
     profile: data.profile, source: data.source, fetchedAt: data.fetchedAt, filters,
     summary: { totalGames: entries.length, wins, losses: entries.length - wins, winRate: entries.length ? wins / entries.length * 100 : 0, detailedGames: entries.filter((entry) => entry.detailed).length, uniqueChampions: championRows.length, approximateDates: true },
     champions: championRows, items: itemRows, augments: augmentRows, teammates: teammateRows, unusedChampions, matches: entries, recent: entries.slice(0, 60),
-    maps: { mayhem: data.summaries.filter((entry) => mapMatches(entry, "mayhem")).length, aram: data.summaries.filter((entry) => mapMatches(entry, "aram")).length, all: data.summaries.length },
+    maps: { mayhem: periodEntries.filter((entry) => mapMatches(entry, "mayhem")).length, aram: periodEntries.filter((entry) => mapMatches(entry, "aram")).length, all: periodEntries.length },
   };
 }
 
