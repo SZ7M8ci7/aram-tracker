@@ -14,8 +14,8 @@ const PLAYARAM_PROFILE_DIR = path.join(DATA_DIR, "playaram-profiles");
 const PLAYARAM_PATH = path.join(PLAYARAM_PROFILE_DIR, "playaram-local.json");
 const PLAYARAM_MANIFEST_PATH = path.join(PLAYARAM_PROFILE_DIR, "index.json");
 const DICTIONARY_PATH = path.join(DATA_DIR, "playaram-dictionary.json");
-const CHAMPIONS_PATH = path.join(DATA_DIR, "champions.json");
-const CHAMPIONS_META_PATH = path.join(DATA_DIR, "champions.meta.json");
+const CHAMPIONS_PATH = path.join(PUBLIC_DIR, "data", "champions.json");
+const CHAMPIONS_META_PATH = path.join(PUBLIC_DIR, "data", "champions.meta.json");
 
 const cache = {
   dataset: null,

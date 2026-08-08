@@ -5,7 +5,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const core = require("../public/playaram-core");
 const data = JSON.parse(fs.readFileSync("test/fixtures/sample-playaram.json", "utf8"));
-const champions = JSON.parse(fs.readFileSync("data/champions.json", "utf8"));
+const champions = JSON.parse(fs.readFileSync("public/data/champions.json", "utf8"));
 
 test("static browser core builds the complete Mayhem dashboard", () => {
   const stats = core.buildStatsFromData(data, { map: "mayhem" }, { champions });
