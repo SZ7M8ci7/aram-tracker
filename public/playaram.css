@@ -88,6 +88,8 @@
 .playaram-panel { margin-top: 16px; }
 .playaram-search { width: 220px; height: 38px; padding: 0 12px; }
 .playaram-table { min-width: 1110px; }
+.playaram-table.opponent-table { min-width: 620px; }
+.opponent-note { margin: 14px 20px 4px; color: var(--muted); font-size: 12px; }
 .playaram-table th { position: sticky; top: 0; z-index: 1; }
 .playaram-champion-row { cursor: pointer; }
 .playaram-champion-row.expanded { background: rgba(82,217,208,.045); }

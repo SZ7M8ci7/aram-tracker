@@ -130,6 +130,13 @@ function playerFromOverview(detail, playerName) {
   return players.find((player) => normalizeName(player.name) === normalizeName(playerName)) || null;
 }
 
+function opponentChampionsFromOverview(detail, playerName) {
+  const teams = detail?.overview?.teams || [];
+  const ownTeamIndex = teams.findIndex((team) => (team.players || []).some((player) => normalizeName(player.name) === normalizeName(playerName)));
+  if (ownTeamIndex < 0) return [];
+  return [...new Set(teams.filter((_, index) => index !== ownTeamIndex).flatMap((team) => (team.players || []).map((player) => player.champion).filter(Boolean)))];
+}
+
 function parseDuration(value) {
   const match = String(value || "").match(/(\d+)m\s*(\d+)s/i);
   return match ? Number(match[1]) * 60 + Number(match[2]) : null;
@@ -166,6 +173,7 @@ function entryFromSummary(summary, detail, index, anchor, playerName) {
     cs: focus?.cs ?? summary.cs ?? null,
     badges: summary.badges || [],
     teammates,
+    opponentChampions: opponentChampionsFromOverview(detail, playerName),
     teams: summary.teams || [],
     detailed: Boolean(focus),
     order: index,
@@ -204,6 +212,7 @@ async function buildStatsFromData(data, query = {}) {
   const items = new Map();
   const augments = new Map();
   const teammates = new Map();
+  const opponents = new Map();
   for (const entry of entries) {
     const champion = champions.get(entry.champion) || { champion: entry.champion, games: 0, wins: 0, losses: 0, detailedGames: 0, kills: 0, deaths: 0, assists: 0, damageDealt: 0, damageTaken: 0, gold: 0, cs: 0, dpmTotal: 0, dpmGames: 0, gpmTotal: 0, gpmGames: 0, duration: 0, durationGames: 0, lastOrder: entry.order, lastPlayed: entry.relativeTime };
     champion.games += 1;
@@ -234,6 +243,10 @@ async function buildStatsFromData(data, query = {}) {
       const stat = teammates.get(teammate) || { name: teammate, games: 0, wins: 0, losses: 0 };
       stat.games += 1; stat.wins += entry.victory ? 1 : 0; stat.losses += entry.victory ? 0 : 1; teammates.set(teammate, stat);
     }
+    for (const opponent of entry.opponentChampions) {
+      const stat = opponents.get(opponent) || { champion: opponent, games: 0, wins: 0, losses: 0 };
+      stat.games += 1; stat.wins += entry.victory ? 1 : 0; stat.losses += entry.victory ? 0 : 1; opponents.set(opponent, stat);
+    }
   }
   const championRows = [...champions.values()].map((row) => ({
     ...row, usageRate: entries.length ? row.games / entries.length * 100 : 0, winRate: row.games ? row.wins / row.games * 100 : 0,
@@ -245,13 +258,14 @@ async function buildStatsFromData(data, query = {}) {
   const itemRows = [...items.values()].map((row) => ({ ...row, purchaseRate: entries.length ? row.games / entries.length * 100 : 0, winRate: row.games ? row.wins / row.games * 100 : 0, avgKdaRatio: row.kdaGames ? row.kdaTotal / row.kdaGames : null })).filter((row) => row.games >= minGames && row.winRate >= minWinRate).sort((a, b) => b.games - a.games || b.winRate - a.winRate);
   const augmentRows = [...augments.values()].map((row) => ({ ...row, acquisitionRate: entries.length ? row.games / entries.length * 100 : 0, winRate: row.games ? row.wins / row.games * 100 : 0, avgKdaRatio: row.kdaGames ? row.kdaTotal / row.kdaGames : null })).filter((row) => row.games >= minGames && row.winRate >= minWinRate).sort((a, b) => b.games - a.games || b.winRate - a.winRate);
   const teammateRows = [...teammates.values()].filter((row) => row.games >= 10).map((row) => ({ ...row, winRate: row.wins / row.games * 100 })).filter((row) => row.games >= minGames && row.winRate >= minWinRate).sort((a, b) => b.games - a.games || b.winRate - a.winRate);
+  const opponentRows = [...opponents.values()].map((row) => ({ ...row, winRate: row.games ? row.wins / row.games * 100 : 0 })).filter((row) => row.games >= minGames && row.winRate >= minWinRate).sort((a, b) => b.games - a.games || b.winRate - a.winRate || a.champion.localeCompare(b.champion));
   const played = new Set(entries.map((entry) => normalizeName(entry.champion)));
   const unusedChampions = Object.values(catalog.champions || {}).filter((champion) => !/^Jade_/i.test(champion.id) && !played.has(normalizeName(champion.id))).map((champion) => ({ id: champion.id, name: champion.name, key: champion.id }));
   const wins = entries.filter((entry) => entry.victory).length;
   return {
     profile: data.profile, source: data.source, fetchedAt: data.fetchedAt, filters,
     summary: { totalGames: entries.length, wins, losses: entries.length - wins, winRate: entries.length ? wins / entries.length * 100 : 0, detailedGames: entries.filter((entry) => entry.detailed).length, uniqueChampions: championRows.length, approximateDates: true },
-    champions: championRows, items: itemRows, augments: augmentRows, teammates: teammateRows, unusedChampions, matches: entries, recent: entries.slice(0, 60),
+    champions: championRows, items: itemRows, augments: augmentRows, teammates: teammateRows, opponents: opponentRows, unusedChampions, matches: entries, recent: entries.slice(0, 60),
     maps: { mayhem: periodEntries.filter((entry) => mapMatches(entry, "mayhem")).length, aram: periodEntries.filter((entry) => mapMatches(entry, "aram")).length, all: periodEntries.length },
   };
 }

@@ -15,6 +15,10 @@ test("static browser core builds the complete Mayhem dashboard", () => {
   assert.ok(stats.champions.length > 0);
   assert.ok(stats.items.length > 0);
   assert.ok(stats.augments.length > 0);
+  assert.deepEqual(stats.opponents, [
+    { champion: "Lux", games: 1, wins: 1, losses: 0, winRate: 100 },
+    { champion: "Jinx", games: 1, wins: 0, losses: 1, winRate: 0 },
+  ]);
 });
 
 test("static browser core restores match Overview", () => {
@@ -57,6 +61,7 @@ test("date range recalculates every dashboard statistic", () => {
   assert.equal(stats.champions[0].avgGpm, 15000 * 60 / 930);
   assert.deepEqual(stats.items.map((row) => row.item), ["Infinity Edge"]);
   assert.deepEqual(stats.augments.map((row) => row.augment), ["Critical Missile"]);
+  assert.deepEqual(stats.opponents, [{ champion: "Lux", games: 1, wins: 1, losses: 0, winRate: 100 }]);
   assert.deepEqual(stats.matches.map((row) => row.gameId), [1]);
   assert.deepEqual(stats.recent.map((row) => row.gameId), [1]);
   assert.deepEqual(stats.maps, { mayhem: 1, aram: 0, all: 1 });

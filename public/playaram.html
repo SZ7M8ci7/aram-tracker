@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ARAMトラッカー</title>
     <link rel="stylesheet" href="./style.css" />
-    <link rel="stylesheet" href="./playaram.css?v=20260809-3" />
+    <link rel="stylesheet" href="./playaram.css?v=20260809-5" />
   </head>
   <body class="playaram-page">
     <div class="page-glow"></div>
@@ -42,7 +42,7 @@
           <label>終了日<input id="toDate" type="date" /></label>
           <button class="button-primary" type="submit">適用</button><button class="button-ghost" id="resetFilters" type="button">リセット</button>
         </form>
-        <div class="tab-bar" role="tablist"><button class="tab-button active" data-tab="champions" role="tab" aria-selected="true">キャラ</button><button class="tab-button" data-tab="items" role="tab" aria-selected="false">アイテム</button><button class="tab-button" data-tab="augments" role="tab" aria-selected="false">オーグメント</button></div>
+        <div class="tab-bar" role="tablist"><button class="tab-button active" data-tab="champions" role="tab" aria-selected="true">キャラ</button><button class="tab-button" data-tab="items" role="tab" aria-selected="false">アイテム</button><button class="tab-button" data-tab="augments" role="tab" aria-selected="false">オーグメント</button><button class="tab-button" data-tab="opponents" role="tab" aria-selected="false">対戦相手</button></div>
         <div id="championTab" class="tab-panel active" role="tabpanel">
           <div class="table-wrap"><table class="playaram-table"><thead><tr>
             <th data-sort="rank">#</th><th data-sort="champion">キャラクター</th><th data-sort="games">試合</th><th data-sort="usageRate">使用率</th><th data-sort="wins">勝敗</th><th data-sort="winRate">勝率</th><th data-sort="avgKills">平均K</th><th data-sort="avgDeaths">平均D</th><th data-sort="avgAssists">平均A</th><th data-sort="kdaRatio">KDAレシオ</th><th data-sort="avgDamageDealt">平均ダメージ</th><th data-sort="avgDpm" title="Damage per Minute">平均DPM</th><th data-sort="avgGold">平均ゴールド</th><th data-sort="avgGpm" title="Gold per Minute">平均GPM</th><th data-sort="avgDurationSeconds">平均時間</th><th data-sort="lastOrder">最終使用</th>
@@ -50,6 +50,7 @@
         </div>
         <div id="itemTab" class="tab-panel" role="tabpanel" hidden><div class="table-wrap"><table class="playaram-table item-table"><thead><tr><th data-item-sort="item">アイテム</th><th data-item-sort="games">購入試合</th><th data-item-sort="purchaseRate">購入率</th><th data-item-sort="wins">勝敗</th><th data-item-sort="winRate">勝率</th><th data-item-sort="avgKdaRatio">購入時KDAレシオ</th></tr></thead><tbody id="playaramItemRows"></tbody></table></div></div>
         <div id="augmentTab" class="tab-panel" role="tabpanel" hidden><div class="table-wrap"><table class="playaram-table item-table"><thead><tr><th data-augment-sort="augment">オーグメント</th><th data-augment-sort="games">取得試合</th><th data-augment-sort="acquisitionRate">取得率</th><th data-augment-sort="wins">勝敗</th><th data-augment-sort="winRate">勝率</th><th data-augment-sort="avgKdaRatio">取得時KDAレシオ</th></tr></thead><tbody id="playaramAugmentRows"></tbody></table></div></div>
+        <div id="opponentTab" class="tab-panel" role="tabpanel" hidden><p class="opponent-note">そのキャラが敵チームにいた試合での自分の勝率です。Overview詳細が保存されている試合を集計します。</p><div class="table-wrap"><table class="playaram-table opponent-table"><thead><tr><th data-opponent-sort="champion">対戦相手</th><th data-opponent-sort="games">対戦試合</th><th data-opponent-sort="wins">勝敗</th><th data-opponent-sort="winRate">対戦時勝率</th></tr></thead><tbody id="playaramOpponentRows"></tbody></table></div></div>
       </section>
 
       <section class="panel playaram-panel"><div class="panel-heading"><div><p class="eyebrow">RECENT MATCHES</p><h2>最近の試合</h2></div><span class="muted">カードをクリックするとOverview詳細</span></div><div id="playaramRecent" class="playaram-recent"></div></section>
@@ -67,7 +68,7 @@
 
       <footer><p id="playaramDataSource">JSONを選択すると、この画面上で集計します。</p><p>外部の戦績サービスやゲームクライアントには接続しません。</p></footer>
     </main>
-    <script src="./playaram-core.js?v=20260809-4" defer></script>
-    <script src="./playaram.js?v=20260809-4" defer></script>
+    <script src="./playaram-core.js?v=20260809-5" defer></script>
+    <script src="./playaram.js?v=20260809-5" defer></script>
   </body>
 </html>
