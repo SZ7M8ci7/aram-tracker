@@ -128,7 +128,7 @@ def parse_overview(game_id: int, html: str) -> dict:
             kda_parts = [number(x) for x in kda_text.split("/")]
             damage = [number(text(x)) for x in row.select(".mdp-dmg b")]
             try:
-                kda_ratio = float(text(row.select_one(".mdp-num em")) or 0)
+                kda_ratio = float(text(row.select_one(".mdp-num em, .mdp-kda em")) or 0)
             except ValueError:
                 kda_ratio = 0.0
             players.append({
