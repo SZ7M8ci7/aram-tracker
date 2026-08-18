@@ -18,6 +18,7 @@
   }
   function parseDuration(value) { const match = String(value || "").match(/(\d+)m\s*(\d+)s/i); return match ? Number(match[1]) * 60 + Number(match[2]) : null; }
   function entryFromSummary(summary, detail, index, anchor, playerName) {
+    if (summary.playedAt) anchor = Date.parse(summary.playedAt) - parseRelativeTime(summary.relativeTime, 0).getTime();
     const focus = playerFromOverview(detail, playerName);
     const ownTeam = (summary.teams || []).find((team) => team.some((name) => normalizeName(name) === normalizeName(playerName))) || [];
     const kills = Number(focus?.kills ?? summary.kills ?? 0), deaths = Number(focus?.deaths ?? summary.deaths ?? 0), assists = Number(focus?.assists ?? summary.assists ?? 0);

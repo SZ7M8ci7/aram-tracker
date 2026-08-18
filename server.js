@@ -146,7 +146,7 @@ function entryFromSummary(summary, detail, index, anchor, playerName) {
   const focus = playerFromOverview(detail, playerName);
   const ownTeam = (summary.teams || []).find((team) => team.some((name) => normalizeName(name) === normalizeName(playerName))) || [];
   const teammates = [...new Set(ownTeam.filter((name) => normalizeName(name) !== normalizeName(playerName)))];
-  const playedAt = parseRelativeTime(summary.relativeTime, anchor);
+  const playedAt = summary.playedAt ? new Date(summary.playedAt) : parseRelativeTime(summary.relativeTime, anchor);
   const kills = Number(focus?.kills ?? summary.kills ?? 0);
   const deaths = Number(focus?.deaths ?? summary.deaths ?? 0);
   const assists = Number(focus?.assists ?? summary.assists ?? 0);

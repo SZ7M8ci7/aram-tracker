@@ -66,3 +66,13 @@ test("date range recalculates every dashboard statistic", () => {
   assert.deepEqual(stats.recent.map((row) => row.gameId), [1]);
   assert.deepEqual(stats.maps, { mayhem: 1, aram: 0, all: 1 });
 });
+
+test("saved absolute match time survives a later archive refresh", () => {
+  const refreshed = structuredClone(data);
+  refreshed.fetchedAt = "2026-08-18T12:00:00.000Z";
+  refreshed.summaries[0].relativeTime = "10d ago";
+  refreshed.summaries[0].playedAt = "2026-08-08T10:00:00.000Z";
+
+  const stats = core.buildStatsFromData(refreshed, { map: "mayhem" }, { champions });
+  assert.equal(stats.matches[0].playedAt, "2026-08-08T10:00:00.000Z");
+});
