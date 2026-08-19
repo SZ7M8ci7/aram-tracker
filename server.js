@@ -125,6 +125,15 @@ function mapMatches(summary, mapFilter) {
   return String(summary.map || "").includes("Mayhem");
 }
 
+function championFromCatalog(name, catalog) {
+  const key = normalizeName(name);
+  return Object.values(catalog.champions || {}).find((champion) => normalizeName(champion.id) === key || normalizeName(champion.name) === key) || null;
+}
+
+function roleMatches(entry, role, catalog) {
+  return role === "all" || (championFromCatalog(entry.champion, catalog)?.roles || []).includes(role);
+}
+
 function playerFromOverview(detail, playerName) {
   const players = (detail?.overview?.teams || []).flatMap((team) => team.players || []);
   return players.find((player) => normalizeName(player.name) === normalizeName(playerName)) || null;
@@ -146,7 +155,8 @@ function entryFromSummary(summary, detail, index, anchor, playerName) {
   const focus = playerFromOverview(detail, playerName);
   const ownTeam = (summary.teams || []).find((team) => team.some((name) => normalizeName(name) === normalizeName(playerName))) || [];
   const teammates = [...new Set(ownTeam.filter((name) => normalizeName(name) !== normalizeName(playerName)))];
-  const playedAt = summary.playedAt ? new Date(summary.playedAt) : parseRelativeTime(summary.relativeTime, anchor);
+  const savedTime = Date.parse(summary.playedAt);
+  const playedAt = Number.isFinite(savedTime) ? new Date(savedTime) : parseRelativeTime(summary.relativeTime, anchor);
   const kills = Number(focus?.kills ?? summary.kills ?? 0);
   const deaths = Number(focus?.deaths ?? summary.deaths ?? 0);
   const assists = Number(focus?.assists ?? summary.assists ?? 0);
@@ -199,13 +209,14 @@ async function buildStatsFromData(data, query = {}) {
   const anchor = Date.parse(data.fetchedAt || new Date().toISOString());
   const filters = {
     map: validFilter(query.map, ["mayhem", "aram", "all"], "mayhem"),
+    role: validFilter(query.role, ["all", "Assassin", "Fighter", "Mage", "Marksman", "Support", "Tank"], "all"),
     from: query.from || null,
     to: query.to || null,
   };
   const playerName = focusName(data);
   const allEntries = data.summaries.map((summary, index) => entryFromSummary(summary, details.get(Number(summary.gameId)), index, anchor, playerName));
   const periodEntries = filterEntries(allEntries, filters, false);
-  const entries = periodEntries.filter((entry) => mapMatches(entry, filters.map));
+  const entries = periodEntries.filter((entry) => mapMatches(entry, filters.map) && roleMatches(entry, filters.role, catalog));
   const minGames = Math.max(0, Number(query.minGames || 0));
   const minWinRate = Math.min(100, Math.max(0, Number(query.minWinRate || 0)));
   const champions = new Map();
@@ -214,11 +225,11 @@ async function buildStatsFromData(data, query = {}) {
   const teammates = new Map();
   const opponents = new Map();
   for (const entry of entries) {
-    const champion = champions.get(entry.champion) || { champion: entry.champion, games: 0, wins: 0, losses: 0, detailedGames: 0, kills: 0, deaths: 0, assists: 0, damageDealt: 0, damageTaken: 0, gold: 0, cs: 0, dpmTotal: 0, dpmGames: 0, gpmTotal: 0, gpmGames: 0, duration: 0, durationGames: 0, lastOrder: entry.order, lastPlayed: entry.relativeTime };
+    const champion = champions.get(entry.champion) || { champion: entry.champion, games: 0, wins: 0, losses: 0, detailedGames: 0, kills: 0, deaths: 0, assists: 0, damageDealt: 0, damageTaken: 0, gold: 0, cs: 0, dpmTotal: 0, dpmGames: 0, gpmTotal: 0, gpmGames: 0, duration: 0, durationGames: 0, lastOrder: entry.order, lastPlayed: entry.playedAt };
     champion.games += 1;
     champion.wins += entry.victory ? 1 : 0;
     champion.losses += entry.victory ? 0 : 1;
-    if (entry.order < champion.lastOrder) { champion.lastOrder = entry.order; champion.lastPlayed = entry.relativeTime; }
+    if (entry.order < champion.lastOrder) { champion.lastOrder = entry.order; champion.lastPlayed = entry.playedAt; }
     if (entry.detailed) {
       champion.detailedGames += 1; champion.kills += entry.kills; champion.deaths += entry.deaths; champion.assists += entry.assists;
       champion.damageDealt += entry.damageDealt || 0; champion.damageTaken += entry.damageTaken || 0; champion.gold += entry.gold || 0; champion.cs += entry.cs || 0;
@@ -260,7 +271,7 @@ async function buildStatsFromData(data, query = {}) {
   const teammateRows = [...teammates.values()].filter((row) => row.games >= 10).map((row) => ({ ...row, winRate: row.wins / row.games * 100 })).filter((row) => row.games >= minGames && row.winRate >= minWinRate).sort((a, b) => b.games - a.games || b.winRate - a.winRate);
   const opponentRows = [...opponents.values()].map((row) => ({ ...row, winRate: row.games ? row.wins / row.games * 100 : 0 })).filter((row) => row.games >= minGames && row.winRate >= minWinRate).sort((a, b) => b.games - a.games || b.winRate - a.winRate || a.champion.localeCompare(b.champion));
   const played = new Set(entries.map((entry) => normalizeName(entry.champion)));
-  const unusedChampions = Object.values(catalog.champions || {}).filter((champion) => !/^Jade_/i.test(champion.id) && !played.has(normalizeName(champion.id))).map((champion) => ({ id: champion.id, name: champion.name, key: champion.id }));
+  const unusedChampions = Object.values(catalog.champions || {}).filter((champion) => !/^Jade_/i.test(champion.id) && (filters.role === "all" || (champion.roles || []).includes(filters.role)) && !played.has(normalizeName(champion.id))).map((champion) => ({ id: champion.id, name: champion.name, key: champion.id, roles: champion.roles || [] }));
   const wins = entries.filter((entry) => entry.victory).length;
   return {
     profile: data.profile, source: data.source, fetchedAt: data.fetchedAt, filters,
@@ -338,7 +349,6 @@ async function handleRequest(req, res) {
 }
 
 async function main() {
-  await loadDataset();
   const server = http.createServer((req, res) => { handleRequest(req, res).catch((error) => jsonResponse(res, 500, { error: error.message })); });
   server.listen(PORT, HOST, () => {
     const url = `http://${HOST}:${PORT}`;

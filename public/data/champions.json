@@ -1,934 +1,1815 @@
 {
   "1": {
     "id": "Annie",
-    "name": "アニー"
+    "name": "アニー",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "2": {
     "id": "Olaf",
-    "name": "オラフ"
+    "name": "オラフ",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "3": {
     "id": "Galio",
-    "name": "ガリオ"
+    "name": "ガリオ",
+    "roles": [
+      "Tank",
+      "Mage"
+    ]
   },
   "4": {
     "id": "TwistedFate",
-    "name": "ツイステッド・フェイト"
+    "name": "ツイステッド・フェイト",
+    "roles": [
+      "Mage",
+      "Marksman"
+    ]
   },
   "5": {
     "id": "XinZhao",
-    "name": "シン・ジャオ"
+    "name": "シン・ジャオ",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "6": {
     "id": "Urgot",
-    "name": "アーゴット"
+    "name": "アーゴット",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "7": {
     "id": "Leblanc",
-    "name": "ルブラン"
+    "name": "ルブラン",
+    "roles": [
+      "Assassin",
+      "Mage"
+    ]
   },
   "8": {
     "id": "Vladimir",
-    "name": "ブラッドミア"
+    "name": "ブラッドミア",
+    "roles": [
+      "Mage",
+      "Fighter"
+    ]
   },
   "9": {
     "id": "Fiddlesticks",
-    "name": "フィドルスティックス"
+    "name": "フィドルスティックス",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "10": {
     "id": "Kayle",
-    "name": "ケイル"
+    "name": "ケイル",
+    "roles": [
+      "Mage",
+      "Marksman"
+    ]
   },
   "11": {
     "id": "MasterYi",
-    "name": "マスター・イー"
+    "name": "マスター・イー",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "12": {
     "id": "Alistar",
-    "name": "アリスター"
+    "name": "アリスター",
+    "roles": [
+      "Tank",
+      "Support"
+    ]
   },
   "13": {
     "id": "Ryze",
-    "name": "ライズ"
+    "name": "ライズ",
+    "roles": [
+      "Mage"
+    ]
   },
   "14": {
     "id": "Sion",
-    "name": "サイオン"
+    "name": "サイオン",
+    "roles": [
+      "Tank",
+      "Fighter"
+    ]
   },
   "15": {
     "id": "Sivir",
-    "name": "シヴィア"
+    "name": "シヴィア",
+    "roles": [
+      "Marksman"
+    ]
   },
   "16": {
     "id": "Soraka",
-    "name": "ソラカ"
+    "name": "ソラカ",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "17": {
     "id": "Teemo",
-    "name": "ティーモ"
+    "name": "ティーモ",
+    "roles": [
+      "Marksman",
+      "Mage"
+    ]
   },
   "18": {
     "id": "Tristana",
-    "name": "トリスターナ"
+    "name": "トリスターナ",
+    "roles": [
+      "Marksman",
+      "Assassin"
+    ]
   },
   "19": {
     "id": "Warwick",
-    "name": "ワーウィック"
+    "name": "ワーウィック",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "20": {
     "id": "Nunu",
-    "name": "ヌヌ＆ウィルンプ"
+    "name": "ヌヌ＆ウィルンプ",
+    "roles": [
+      "Tank",
+      "Mage"
+    ]
   },
   "21": {
     "id": "MissFortune",
-    "name": "ミス・フォーチュン"
+    "name": "ミス・フォーチュン",
+    "roles": [
+      "Marksman",
+      "Mage"
+    ]
   },
   "22": {
     "id": "Ashe",
-    "name": "アッシュ"
+    "name": "アッシュ",
+    "roles": [
+      "Marksman",
+      "Support"
+    ]
   },
   "23": {
     "id": "Tryndamere",
-    "name": "トリンダメア"
+    "name": "トリンダメア",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "24": {
     "id": "Jax",
-    "name": "ジャックス"
+    "name": "ジャックス",
+    "roles": [
+      "Fighter"
+    ]
   },
   "25": {
     "id": "Morgana",
-    "name": "モルガナ"
+    "name": "モルガナ",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "26": {
     "id": "Zilean",
-    "name": "ジリアン"
+    "name": "ジリアン",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "27": {
     "id": "Singed",
-    "name": "シンジド"
+    "name": "シンジド",
+    "roles": [
+      "Tank",
+      "Mage"
+    ]
   },
   "28": {
     "id": "Evelynn",
-    "name": "イブリン"
+    "name": "イブリン",
+    "roles": [
+      "Assassin",
+      "Mage"
+    ]
   },
   "29": {
     "id": "Twitch",
-    "name": "トゥイッチ"
+    "name": "トゥイッチ",
+    "roles": [
+      "Marksman",
+      "Assassin"
+    ]
   },
   "30": {
     "id": "Karthus",
-    "name": "カーサス"
+    "name": "カーサス",
+    "roles": [
+      "Mage"
+    ]
   },
   "31": {
     "id": "Chogath",
-    "name": "チョ＝ガス"
+    "name": "チョ＝ガス",
+    "roles": [
+      "Tank",
+      "Mage"
+    ]
   },
   "32": {
     "id": "Amumu",
-    "name": "アムム"
+    "name": "アムム",
+    "roles": [
+      "Tank",
+      "Support"
+    ]
   },
   "33": {
     "id": "Rammus",
-    "name": "ラムス"
+    "name": "ラムス",
+    "roles": [
+      "Tank"
+    ]
   },
   "34": {
     "id": "Anivia",
-    "name": "アニビア"
+    "name": "アニビア",
+    "roles": [
+      "Mage"
+    ]
   },
   "35": {
     "id": "Shaco",
-    "name": "シャコ"
+    "name": "シャコ",
+    "roles": [
+      "Assassin"
+    ]
   },
   "36": {
     "id": "DrMundo",
-    "name": "ドクター・ムンド"
+    "name": "ドクター・ムンド",
+    "roles": [
+      "Tank",
+      "Fighter"
+    ]
   },
   "37": {
     "id": "Sona",
-    "name": "ソナ"
+    "name": "ソナ",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "38": {
     "id": "Kassadin",
-    "name": "カサディン"
+    "name": "カサディン",
+    "roles": [
+      "Assassin",
+      "Mage"
+    ]
   },
   "39": {
     "id": "Irelia",
-    "name": "イレリア"
+    "name": "イレリア",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "40": {
     "id": "Janna",
-    "name": "ジャンナ"
+    "name": "ジャンナ",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "41": {
     "id": "Gangplank",
-    "name": "ガングプランク"
+    "name": "ガングプランク",
+    "roles": [
+      "Fighter"
+    ]
   },
   "42": {
     "id": "Corki",
-    "name": "コーキ"
+    "name": "コーキ",
+    "roles": [
+      "Marksman",
+      "Mage"
+    ]
   },
   "43": {
     "id": "Karma",
-    "name": "カルマ"
+    "name": "カルマ",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "44": {
     "id": "Taric",
-    "name": "タリック"
+    "name": "タリック",
+    "roles": [
+      "Support",
+      "Tank"
+    ]
   },
   "45": {
     "id": "Veigar",
-    "name": "ベイガー"
+    "name": "ベイガー",
+    "roles": [
+      "Mage"
+    ]
   },
   "48": {
     "id": "Trundle",
-    "name": "トランドル"
+    "name": "トランドル",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "50": {
     "id": "Swain",
-    "name": "スウェイン"
+    "name": "スウェイン",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "51": {
     "id": "Caitlyn",
-    "name": "ケイトリン"
+    "name": "ケイトリン",
+    "roles": [
+      "Marksman"
+    ]
   },
   "53": {
     "id": "Blitzcrank",
-    "name": "ブリッツクランク"
+    "name": "ブリッツクランク",
+    "roles": [
+      "Tank",
+      "Support"
+    ]
   },
   "54": {
     "id": "Malphite",
-    "name": "マルファイト"
+    "name": "マルファイト",
+    "roles": [
+      "Tank",
+      "Mage"
+    ]
   },
   "55": {
     "id": "Katarina",
-    "name": "カタリナ"
+    "name": "カタリナ",
+    "roles": [
+      "Assassin",
+      "Mage"
+    ]
   },
   "56": {
     "id": "Nocturne",
-    "name": "ノクターン"
+    "name": "ノクターン",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "57": {
     "id": "Maokai",
-    "name": "マオカイ"
+    "name": "マオカイ",
+    "roles": [
+      "Tank",
+      "Support"
+    ]
   },
   "58": {
     "id": "Renekton",
-    "name": "レネクトン"
+    "name": "レネクトン",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "59": {
     "id": "JarvanIV",
-    "name": "ジャーヴァンⅣ"
+    "name": "ジャーヴァンⅣ",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "60": {
     "id": "Elise",
-    "name": "エリス"
+    "name": "エリス",
+    "roles": [
+      "Assassin",
+      "Mage"
+    ]
   },
   "61": {
     "id": "Orianna",
-    "name": "オリアナ"
+    "name": "オリアナ",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "62": {
     "id": "MonkeyKing",
-    "name": "ウーコン"
+    "name": "ウーコン",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "63": {
     "id": "Brand",
-    "name": "ブランド"
+    "name": "ブランド",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "64": {
     "id": "LeeSin",
-    "name": "リー・シン"
+    "name": "リー・シン",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "67": {
     "id": "Vayne",
-    "name": "ヴェイン"
+    "name": "ヴェイン",
+    "roles": [
+      "Marksman",
+      "Assassin"
+    ]
   },
   "68": {
     "id": "Rumble",
-    "name": "ランブル"
+    "name": "ランブル",
+    "roles": [
+      "Fighter",
+      "Mage"
+    ]
   },
   "69": {
     "id": "Cassiopeia",
-    "name": "カシオペア"
+    "name": "カシオペア",
+    "roles": [
+      "Mage"
+    ]
   },
   "72": {
     "id": "Skarner",
-    "name": "スカーナー"
+    "name": "スカーナー",
+    "roles": [
+      "Tank",
+      "Fighter"
+    ]
   },
   "74": {
     "id": "Heimerdinger",
-    "name": "ハイマーディンガー"
+    "name": "ハイマーディンガー",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "75": {
     "id": "Nasus",
-    "name": "ナサス"
+    "name": "ナサス",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "76": {
     "id": "Nidalee",
-    "name": "ニダリー"
+    "name": "ニダリー",
+    "roles": [
+      "Assassin",
+      "Mage"
+    ]
   },
   "77": {
     "id": "Udyr",
-    "name": "ウディア"
+    "name": "ウディア",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "78": {
     "id": "Poppy",
-    "name": "ポッピー"
+    "name": "ポッピー",
+    "roles": [
+      "Tank",
+      "Fighter"
+    ]
   },
   "79": {
     "id": "Gragas",
-    "name": "グラガス"
+    "name": "グラガス",
+    "roles": [
+      "Fighter",
+      "Mage"
+    ]
   },
   "80": {
     "id": "Pantheon",
-    "name": "パンテオン"
+    "name": "パンテオン",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "81": {
     "id": "Ezreal",
-    "name": "エズリアル"
+    "name": "エズリアル",
+    "roles": [
+      "Marksman",
+      "Mage"
+    ]
   },
   "82": {
     "id": "Mordekaiser",
-    "name": "モルデカイザー"
+    "name": "モルデカイザー",
+    "roles": [
+      "Fighter",
+      "Mage"
+    ]
   },
   "83": {
     "id": "Yorick",
-    "name": "ヨリック"
+    "name": "ヨリック",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "84": {
     "id": "Akali",
-    "name": "アカリ"
+    "name": "アカリ",
+    "roles": [
+      "Assassin"
+    ]
   },
   "85": {
     "id": "Kennen",
-    "name": "ケネン"
+    "name": "ケネン",
+    "roles": [
+      "Mage"
+    ]
   },
   "86": {
     "id": "Garen",
-    "name": "ガレン"
+    "name": "ガレン",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "89": {
     "id": "Leona",
-    "name": "レオナ"
+    "name": "レオナ",
+    "roles": [
+      "Tank",
+      "Support"
+    ]
   },
   "90": {
     "id": "Malzahar",
-    "name": "マルザハール"
+    "name": "マルザハール",
+    "roles": [
+      "Mage"
+    ]
   },
   "91": {
     "id": "Talon",
-    "name": "タロン"
+    "name": "タロン",
+    "roles": [
+      "Assassin"
+    ]
   },
   "92": {
     "id": "Riven",
-    "name": "リヴェン"
+    "name": "リヴェン",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "96": {
     "id": "KogMaw",
-    "name": "コグ＝マウ"
+    "name": "コグ＝マウ",
+    "roles": [
+      "Marksman",
+      "Mage"
+    ]
   },
   "98": {
     "id": "Shen",
-    "name": "シェン"
+    "name": "シェン",
+    "roles": [
+      "Tank"
+    ]
   },
   "99": {
     "id": "Lux",
-    "name": "ラックス"
+    "name": "ラックス",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "101": {
     "id": "Xerath",
-    "name": "ゼラス"
+    "name": "ゼラス",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "102": {
     "id": "Shyvana",
-    "name": "シヴァーナ"
+    "name": "シヴァーナ",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "103": {
     "id": "Ahri",
-    "name": "アーリ"
+    "name": "アーリ",
+    "roles": [
+      "Mage",
+      "Assassin"
+    ]
   },
   "104": {
     "id": "Graves",
-    "name": "グレイブス"
+    "name": "グレイブス",
+    "roles": [
+      "Marksman"
+    ]
   },
   "105": {
     "id": "Fizz",
-    "name": "フィズ"
+    "name": "フィズ",
+    "roles": [
+      "Assassin",
+      "Fighter"
+    ]
   },
   "106": {
     "id": "Volibear",
-    "name": "ボリベア"
+    "name": "ボリベア",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "107": {
     "id": "Rengar",
-    "name": "レンガー"
+    "name": "レンガー",
+    "roles": [
+      "Assassin",
+      "Fighter"
+    ]
   },
   "110": {
     "id": "Varus",
-    "name": "ヴァルス"
+    "name": "ヴァルス",
+    "roles": [
+      "Marksman",
+      "Mage"
+    ]
   },
   "111": {
     "id": "Nautilus",
-    "name": "ノーチラス"
+    "name": "ノーチラス",
+    "roles": [
+      "Tank",
+      "Support"
+    ]
   },
   "112": {
     "id": "Viktor",
-    "name": "ビクター"
+    "name": "ビクター",
+    "roles": [
+      "Mage"
+    ]
   },
   "113": {
     "id": "Sejuani",
-    "name": "セジュアニ"
+    "name": "セジュアニ",
+    "roles": [
+      "Tank"
+    ]
   },
   "114": {
     "id": "Fiora",
-    "name": "フィオラ"
+    "name": "フィオラ",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "115": {
     "id": "Ziggs",
-    "name": "ジグス"
+    "name": "ジグス",
+    "roles": [
+      "Mage"
+    ]
   },
   "117": {
     "id": "Lulu",
-    "name": "ルル"
+    "name": "ルル",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "119": {
     "id": "Draven",
-    "name": "ドレイヴン"
+    "name": "ドレイヴン",
+    "roles": [
+      "Marksman"
+    ]
   },
   "120": {
     "id": "Hecarim",
-    "name": "ヘカリム"
+    "name": "ヘカリム",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "121": {
     "id": "Khazix",
-    "name": "カ＝ジックス"
+    "name": "カ＝ジックス",
+    "roles": [
+      "Assassin"
+    ]
   },
   "122": {
     "id": "Darius",
-    "name": "ダリウス"
+    "name": "ダリウス",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "126": {
     "id": "Jayce",
-    "name": "ジェイス"
+    "name": "ジェイス",
+    "roles": [
+      "Fighter",
+      "Marksman"
+    ]
   },
   "127": {
     "id": "Lissandra",
-    "name": "リサンドラ"
+    "name": "リサンドラ",
+    "roles": [
+      "Mage"
+    ]
   },
   "131": {
     "id": "Diana",
-    "name": "ダイアナ"
+    "name": "ダイアナ",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "133": {
     "id": "Quinn",
-    "name": "クイン"
+    "name": "クイン",
+    "roles": [
+      "Marksman",
+      "Assassin"
+    ]
   },
   "134": {
     "id": "Syndra",
-    "name": "シンドラ"
+    "name": "シンドラ",
+    "roles": [
+      "Mage"
+    ]
   },
   "136": {
     "id": "AurelionSol",
-    "name": "オレリオン・ソル"
+    "name": "オレリオン・ソル",
+    "roles": [
+      "Mage"
+    ]
   },
   "141": {
     "id": "Kayn",
-    "name": "ケイン"
+    "name": "ケイン",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "142": {
     "id": "Zoe",
-    "name": "ゾーイ"
+    "name": "ゾーイ",
+    "roles": [
+      "Mage"
+    ]
   },
   "143": {
     "id": "Zyra",
-    "name": "ザイラ"
+    "name": "ザイラ",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "145": {
     "id": "Kaisa",
-    "name": "カイ＝サ"
+    "name": "カイ＝サ",
+    "roles": [
+      "Marksman",
+      "Mage"
+    ]
   },
   "147": {
     "id": "Seraphine",
-    "name": "セラフィーン"
+    "name": "セラフィーン",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "150": {
     "id": "Gnar",
-    "name": "ナー"
+    "name": "ナー",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "154": {
     "id": "Zac",
-    "name": "ザック"
+    "name": "ザック",
+    "roles": [
+      "Tank",
+      "Fighter"
+    ]
   },
   "157": {
     "id": "Yasuo",
-    "name": "ヤスオ"
+    "name": "ヤスオ",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "161": {
     "id": "Velkoz",
-    "name": "ヴェル＝コズ"
+    "name": "ヴェル＝コズ",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "163": {
     "id": "Taliyah",
-    "name": "タリヤ"
+    "name": "タリヤ",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "164": {
     "id": "Camille",
-    "name": "カミール"
+    "name": "カミール",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "166": {
     "id": "Akshan",
-    "name": "アクシャン"
+    "name": "アクシャン",
+    "roles": [
+      "Marksman",
+      "Assassin"
+    ]
   },
   "200": {
     "id": "Belveth",
-    "name": "ベル＝ヴェス"
+    "name": "ベル＝ヴェス",
+    "roles": [
+      "Fighter"
+    ]
   },
   "201": {
     "id": "Braum",
-    "name": "ブラウム"
+    "name": "ブラウム",
+    "roles": [
+      "Tank",
+      "Support"
+    ]
   },
   "202": {
     "id": "Jhin",
-    "name": "ジン"
+    "name": "ジン",
+    "roles": [
+      "Marksman",
+      "Mage"
+    ]
   },
   "203": {
     "id": "Kindred",
-    "name": "キンドレッド"
+    "name": "キンドレッド",
+    "roles": [
+      "Marksman"
+    ]
   },
   "221": {
     "id": "Zeri",
-    "name": "ゼリ"
+    "name": "ゼリ",
+    "roles": [
+      "Marksman"
+    ]
   },
   "222": {
     "id": "Jinx",
-    "name": "ジンクス"
+    "name": "ジンクス",
+    "roles": [
+      "Marksman"
+    ]
   },
   "223": {
     "id": "TahmKench",
-    "name": "タム・ケンチ"
+    "name": "タム・ケンチ",
+    "roles": [
+      "Tank",
+      "Support"
+    ]
   },
   "233": {
     "id": "Briar",
-    "name": "ブライアー"
+    "name": "ブライアー",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "234": {
     "id": "Viego",
-    "name": "ヴィエゴ"
+    "name": "ヴィエゴ",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "235": {
     "id": "Senna",
-    "name": "セナ"
+    "name": "セナ",
+    "roles": [
+      "Support",
+      "Marksman"
+    ]
   },
   "236": {
     "id": "Lucian",
-    "name": "ルシアン"
+    "name": "ルシアン",
+    "roles": [
+      "Marksman",
+      "Assassin"
+    ]
   },
   "238": {
     "id": "Zed",
-    "name": "ゼド"
+    "name": "ゼド",
+    "roles": [
+      "Assassin"
+    ]
   },
   "240": {
     "id": "Kled",
-    "name": "クレッド"
+    "name": "クレッド",
+    "roles": [
+      "Fighter"
+    ]
   },
   "245": {
     "id": "Ekko",
-    "name": "エコー"
+    "name": "エコー",
+    "roles": [
+      "Assassin",
+      "Mage"
+    ]
   },
   "246": {
     "id": "Qiyana",
-    "name": "キヤナ"
+    "name": "キヤナ",
+    "roles": [
+      "Assassin"
+    ]
   },
   "254": {
     "id": "Vi",
-    "name": "ヴァイ"
+    "name": "ヴァイ",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "266": {
     "id": "Aatrox",
-    "name": "エイトロックス"
+    "name": "エイトロックス",
+    "roles": [
+      "Fighter"
+    ]
   },
   "267": {
     "id": "Nami",
-    "name": "ナミ"
+    "name": "ナミ",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "268": {
     "id": "Azir",
-    "name": "アジール"
+    "name": "アジール",
+    "roles": [
+      "Mage",
+      "Marksman"
+    ]
   },
   "350": {
     "id": "Yuumi",
-    "name": "ユーミ"
+    "name": "ユーミ",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "360": {
     "id": "Samira",
-    "name": "サミーラ"
+    "name": "サミーラ",
+    "roles": [
+      "Marksman",
+      "Assassin"
+    ]
   },
   "412": {
     "id": "Thresh",
-    "name": "スレッシュ"
+    "name": "スレッシュ",
+    "roles": [
+      "Support",
+      "Tank"
+    ]
   },
   "420": {
     "id": "Illaoi",
-    "name": "イラオイ"
+    "name": "イラオイ",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "421": {
     "id": "RekSai",
-    "name": "レク＝サイ"
+    "name": "レク＝サイ",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "427": {
     "id": "Ivern",
-    "name": "アイバーン"
+    "name": "アイバーン",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "429": {
     "id": "Kalista",
-    "name": "カリスタ"
+    "name": "カリスタ",
+    "roles": [
+      "Marksman"
+    ]
   },
   "432": {
     "id": "Bard",
-    "name": "バード"
+    "name": "バード",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "497": {
     "id": "Rakan",
-    "name": "ラカン"
+    "name": "ラカン",
+    "roles": [
+      "Support"
+    ]
   },
   "498": {
     "id": "Xayah",
-    "name": "ザヤ"
+    "name": "ザヤ",
+    "roles": [
+      "Marksman"
+    ]
   },
   "516": {
     "id": "Ornn",
-    "name": "オーン"
+    "name": "オーン",
+    "roles": [
+      "Tank"
+    ]
   },
   "517": {
     "id": "Sylas",
-    "name": "サイラス"
+    "name": "サイラス",
+    "roles": [
+      "Mage",
+      "Assassin"
+    ]
   },
   "518": {
     "id": "Neeko",
-    "name": "ニーコ"
+    "name": "ニーコ",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "523": {
     "id": "Aphelios",
-    "name": "アフェリオス"
+    "name": "アフェリオス",
+    "roles": [
+      "Marksman"
+    ]
   },
   "526": {
     "id": "Rell",
-    "name": "レル"
+    "name": "レル",
+    "roles": [
+      "Tank",
+      "Support"
+    ]
   },
   "555": {
     "id": "Pyke",
-    "name": "パイク"
+    "name": "パイク",
+    "roles": [
+      "Support",
+      "Assassin"
+    ]
   },
   "711": {
     "id": "Vex",
-    "name": "ヴェックス"
+    "name": "ヴェックス",
+    "roles": [
+      "Mage"
+    ]
   },
   "777": {
     "id": "Yone",
-    "name": "ヨネ"
+    "name": "ヨネ",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "799": {
     "id": "Ambessa",
-    "name": "アンベッサ"
+    "name": "アンベッサ",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "800": {
     "id": "Mel",
-    "name": "メル"
+    "name": "メル",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "804": {
     "id": "Yunara",
-    "name": "ユナラ"
+    "name": "ユナラ",
+    "roles": [
+      "Marksman"
+    ]
   },
   "805": {
     "id": "Locke",
-    "name": "ロック"
+    "name": "ロック",
+    "roles": [
+      "Assassin",
+      "Mage"
+    ]
   },
   "875": {
     "id": "Sett",
-    "name": "セト"
+    "name": "セト",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "876": {
     "id": "Lillia",
-    "name": "リリア"
+    "name": "リリア",
+    "roles": [
+      "Fighter",
+      "Mage"
+    ]
   },
   "887": {
     "id": "Gwen",
-    "name": "グウェン"
+    "name": "グウェン",
+    "roles": [
+      "Fighter"
+    ]
   },
   "888": {
     "id": "Renata",
-    "name": "レナータ・グラスク"
+    "name": "レナータ・グラスク",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "893": {
     "id": "Aurora",
-    "name": "オーロラ"
+    "name": "オーロラ",
+    "roles": [
+      "Mage",
+      "Assassin"
+    ]
   },
   "895": {
     "id": "Nilah",
-    "name": "ニーラ"
+    "name": "ニーラ",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "897": {
     "id": "KSante",
-    "name": "カ・サンテ"
+    "name": "カ・サンテ",
+    "roles": [
+      "Tank",
+      "Fighter"
+    ]
   },
   "901": {
     "id": "Smolder",
-    "name": "スモルダー"
+    "name": "スモルダー",
+    "roles": [
+      "Marksman",
+      "Mage"
+    ]
   },
   "902": {
     "id": "Milio",
-    "name": "ミリオ"
+    "name": "ミリオ",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "904": {
     "id": "Zaahen",
-    "name": "ザーヘン"
+    "name": "ザーヘン",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "910": {
     "id": "Hwei",
-    "name": "フェイ"
+    "name": "フェイ",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "950": {
     "id": "Naafiri",
-    "name": "ナフィーリ"
+    "name": "ナフィーリ",
+    "roles": [
+      "Assassin",
+      "Fighter"
+    ]
   },
   "60001": {
     "id": "Jade_Annie",
-    "name": "アニー"
+    "name": "アニー",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "60002": {
     "id": "Jade_Olaf",
-    "name": "オラフ"
+    "name": "オラフ",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "60004": {
     "id": "Jade_TwistedFate",
-    "name": "ツイステッド・フェイト"
+    "name": "ツイステッド・フェイト",
+    "roles": [
+      "Mage",
+      "Marksman"
+    ]
   },
   "60009": {
     "id": "Jade_Fiddlesticks",
-    "name": "フィドルスティックス"
+    "name": "フィドルスティックス",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "60010": {
     "id": "Jade_Kayle",
-    "name": "ケイル"
+    "name": "ケイル",
+    "roles": [
+      "Mage",
+      "Marksman"
+    ]
   },
   "60011": {
     "id": "Jade_MasterYi",
-    "name": "マスター・イー"
+    "name": "マスター・イー",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "60012": {
     "id": "Jade_Alistar",
-    "name": "アリスター"
+    "name": "アリスター",
+    "roles": [
+      "Tank",
+      "Support"
+    ]
   },
   "60013": {
     "id": "Jade_Ryze",
-    "name": "ライズ"
+    "name": "ライズ",
+    "roles": [
+      "Mage"
+    ]
   },
   "60014": {
     "id": "Jade_Sion",
-    "name": "サイオン"
+    "name": "サイオン",
+    "roles": [
+      "Tank",
+      "Fighter"
+    ]
   },
   "60015": {
     "id": "Jade_Sivir",
-    "name": "シヴィア"
+    "name": "シヴィア",
+    "roles": [
+      "Marksman"
+    ]
   },
   "60016": {
     "id": "Jade_Soraka",
-    "name": "ソラカ"
+    "name": "ソラカ",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "60017": {
     "id": "Jade_Teemo",
-    "name": "ティーモ"
+    "name": "ティーモ",
+    "roles": [
+      "Marksman",
+      "Mage"
+    ]
   },
   "60018": {
     "id": "Jade_Tristana",
-    "name": "トリスターナ"
+    "name": "トリスターナ",
+    "roles": [
+      "Marksman",
+      "Assassin"
+    ]
   },
   "60019": {
     "id": "Jade_Warwick",
-    "name": "ワーウィック"
+    "name": "ワーウィック",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "60020": {
     "id": "Jade_Nunu",
-    "name": "ヌヌ＆ウィルンプ"
+    "name": "ヌヌ＆ウィルンプ",
+    "roles": [
+      "Tank",
+      "Mage"
+    ]
   },
   "60021": {
     "id": "Jade_MissFortune",
-    "name": "ミス・フォーチュン"
+    "name": "ミス・フォーチュン",
+    "roles": [
+      "Marksman",
+      "Mage"
+    ]
   },
   "60022": {
     "id": "Jade_Ashe",
-    "name": "アッシュ"
+    "name": "アッシュ",
+    "roles": [
+      "Marksman",
+      "Support"
+    ]
   },
   "60023": {
     "id": "Jade_Tryndamere",
-    "name": "トリンダメア"
+    "name": "トリンダメア",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "60024": {
     "id": "Jade_Jax",
-    "name": "ジャックス"
+    "name": "ジャックス",
+    "roles": [
+      "Fighter"
+    ]
   },
   "60025": {
     "id": "Jade_Morgana",
-    "name": "モルガナ"
+    "name": "モルガナ",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "60026": {
     "id": "Jade_Zilean",
-    "name": "ジリアン"
+    "name": "ジリアン",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "60027": {
     "id": "Jade_Singed",
-    "name": "シンジド"
+    "name": "シンジド",
+    "roles": [
+      "Tank",
+      "Mage"
+    ]
   },
   "60028": {
     "id": "Jade_Evelynn",
-    "name": "イブリン"
+    "name": "イブリン",
+    "roles": [
+      "Assassin",
+      "Mage"
+    ]
   },
   "60029": {
     "id": "Jade_Twitch",
-    "name": "トゥイッチ"
+    "name": "トゥイッチ",
+    "roles": [
+      "Marksman",
+      "Assassin"
+    ]
   },
   "60030": {
     "id": "Jade_Karthus",
-    "name": "カーサス"
+    "name": "カーサス",
+    "roles": [
+      "Mage"
+    ]
   },
   "60031": {
     "id": "Jade_Chogath",
-    "name": "チョ＝ガス"
+    "name": "チョ＝ガス",
+    "roles": [
+      "Tank",
+      "Mage"
+    ]
   },
   "60032": {
     "id": "Jade_Amumu",
-    "name": "アムム"
+    "name": "アムム",
+    "roles": [
+      "Tank",
+      "Support"
+    ]
   },
   "60033": {
     "id": "Jade_Rammus",
-    "name": "ラムス"
+    "name": "ラムス",
+    "roles": [
+      "Tank"
+    ]
   },
   "60034": {
     "id": "Jade_Anivia",
-    "name": "アニビア"
+    "name": "アニビア",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "60035": {
     "id": "Jade_Shaco",
-    "name": "シャコ"
+    "name": "シャコ",
+    "roles": [
+      "Assassin"
+    ]
   },
   "60036": {
     "id": "Jade_DrMundo",
-    "name": "ドクター・ムンド"
+    "name": "ドクター・ムンド",
+    "roles": [
+      "Tank",
+      "Fighter"
+    ]
   },
   "60037": {
     "id": "Jade_Sona",
-    "name": "ソナ"
+    "name": "ソナ",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "60038": {
     "id": "Jade_Kassadin",
-    "name": "カサディン"
+    "name": "カサディン",
+    "roles": [
+      "Assassin",
+      "Mage"
+    ]
   },
   "60040": {
     "id": "Jade_Janna",
-    "name": "ジャンナ"
+    "name": "ジャンナ",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   },
   "60041": {
     "id": "Jade_Gangplank",
-    "name": "ガングプランク"
+    "name": "ガングプランク",
+    "roles": [
+      "Fighter"
+    ]
   },
   "60042": {
     "id": "Jade_Corki",
-    "name": "コーキ"
+    "name": "コーキ",
+    "roles": [
+      "Marksman",
+      "Mage"
+    ]
   },
   "60044": {
     "id": "Jade_Taric",
-    "name": "タリック"
+    "name": "タリック",
+    "roles": [
+      "Support",
+      "Tank"
+    ]
   },
   "60045": {
     "id": "Jade_Veigar",
-    "name": "ベイガー"
+    "name": "ベイガー",
+    "roles": [
+      "Mage"
+    ]
   },
   "60053": {
     "id": "Jade_Blitzcrank",
-    "name": "ブリッツクランク"
+    "name": "ブリッツクランク",
+    "roles": [
+      "Tank",
+      "Support"
+    ]
   },
   "60054": {
     "id": "Jade_Malphite",
-    "name": "マルファイト"
+    "name": "マルファイト",
+    "roles": [
+      "Tank",
+      "Mage"
+    ]
   },
   "60055": {
     "id": "Jade_Katarina",
-    "name": "カタリナ"
+    "name": "カタリナ",
+    "roles": [
+      "Assassin",
+      "Mage"
+    ]
   },
   "60059": {
     "id": "Jade_JarvanIV",
-    "name": "ジャーヴァンⅣ"
+    "name": "ジャーヴァンⅣ",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "60062": {
     "id": "Jade_Wukong",
-    "name": "ウーコン"
+    "name": "ウーコン",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "60063": {
     "id": "Jade_Brand",
-    "name": "ブランド"
+    "name": "ブランド",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "60064": {
     "id": "Jade_LeeSin",
-    "name": "リー・シン"
+    "name": "リー・シン",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "60067": {
     "id": "Jade_Vayne",
-    "name": "ヴェイン"
+    "name": "ヴェイン",
+    "roles": [
+      "Marksman",
+      "Assassin"
+    ]
   },
   "60072": {
     "id": "Jade_Skarner",
-    "name": "スカーナー"
+    "name": "スカーナー",
+    "roles": [
+      "Tank",
+      "Fighter"
+    ]
   },
   "60074": {
     "id": "Jade_Heimerdinger",
-    "name": "ハイマーディンガー"
+    "name": "ハイマーディンガー",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "60075": {
     "id": "Jade_Nasus",
-    "name": "ナサス"
+    "name": "ナサス",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "60076": {
     "id": "Jade_Nidalee",
-    "name": "ニダリー"
+    "name": "ニダリー",
+    "roles": [
+      "Assassin",
+      "Mage"
+    ]
   },
   "60079": {
     "id": "Jade_Gragas",
-    "name": "グラガス"
+    "name": "グラガス",
+    "roles": [
+      "Fighter",
+      "Mage"
+    ]
   },
   "60080": {
     "id": "Jade_Pantheon",
-    "name": "パンテオン"
+    "name": "パンテオン",
+    "roles": [
+      "Fighter",
+      "Assassin"
+    ]
   },
   "60081": {
     "id": "Jade_Ezreal",
-    "name": "エズリアル"
+    "name": "エズリアル",
+    "roles": [
+      "Marksman",
+      "Mage"
+    ]
   },
   "60086": {
     "id": "Jade_Garen",
-    "name": "ガレン"
+    "name": "ガレン",
+    "roles": [
+      "Fighter",
+      "Tank"
+    ]
   },
   "60089": {
     "id": "Jade_Leona",
-    "name": "レオナ"
+    "name": "レオナ",
+    "roles": [
+      "Tank",
+      "Support"
+    ]
   },
   "60090": {
     "id": "Jade_Malzahar",
-    "name": "マルザハール"
+    "name": "マルザハール",
+    "roles": [
+      "Mage"
+    ]
   },
   "60096": {
     "id": "Jade_KogMaw",
-    "name": "コグ＝マウ"
+    "name": "コグ＝マウ",
+    "roles": [
+      "Marksman",
+      "Mage"
+    ]
   },
   "60099": {
     "id": "Jade_Lux",
-    "name": "ラックス"
+    "name": "ラックス",
+    "roles": [
+      "Mage",
+      "Support"
+    ]
   },
   "60103": {
     "id": "Jade_Ahri",
-    "name": "アーリ"
+    "name": "アーリ",
+    "roles": [
+      "Mage",
+      "Assassin"
+    ]
   },
   "60117": {
     "id": "Jade_Lulu",
-    "name": "ルル"
+    "name": "ルル",
+    "roles": [
+      "Support",
+      "Mage"
+    ]
   }
 }

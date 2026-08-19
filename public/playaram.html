@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>ARAMトラッカー</title>
     <link rel="stylesheet" href="./style.css?v=20260809-6" />
-    <link rel="stylesheet" href="./playaram.css?v=20260809-5" />
+    <link rel="stylesheet" href="./playaram.css?v=20260819-1" />
   </head>
   <body class="playaram-page">
     <div class="page-glow"></div>
@@ -33,7 +33,7 @@
       <section class="panel playaram-panel stats-panel">
         <div class="panel-heading stats-heading">
           <div><p class="eyebrow">PERFORMANCE</p><h2>統計一覧</h2></div>
-          <div class="primary-tools"><label>モード<select id="mapFilter"><option value="mayhem">ARAM: Mayhem</option><option value="aram">通常ARAM</option><option value="all">すべて</option></select></label><input id="playaramSearch" class="playaram-search" type="search" placeholder="キャラ名を検索" /></div>
+          <div class="primary-tools"><label>モード<select id="mapFilter"><option value="mayhem">ARAM: Mayhem</option><option value="aram">通常ARAM</option><option value="all">すべて</option></select></label><label>ロール<select id="roleFilter"><option value="all">全ロール</option><option value="Assassin">アサシン</option><option value="Fighter">ファイター</option><option value="Mage">メイジ</option><option value="Marksman">マークスマン</option><option value="Support">サポート</option><option value="Tank">タンク</option></select></label><input id="playaramSearch" class="playaram-search" type="search" placeholder="キャラ名を検索" /></div>
         </div>
         <form id="filterForm" class="stats-filter-bar">
           <label>最低試合数<input id="minGames" type="number" min="0" step="1" placeholder="0" /></label>
@@ -68,7 +68,7 @@
 
       <footer><p id="playaramDataSource">JSONを選択すると、この画面上で集計します。</p><p>外部の戦績サービスやゲームクライアントには接続しません。</p></footer>
     </main>
-    <script src="./playaram-core.js?v=20260818-1" defer></script>
-    <script src="./playaram.js?v=20260809-6" defer></script>
+    <script src="./playaram-core.js?v=20260819-2" defer></script>
+    <script src="./playaram.js?v=20260819-2" defer></script>
   </body>
 </html>

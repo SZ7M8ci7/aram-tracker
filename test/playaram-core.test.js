@@ -26,6 +26,17 @@ test("static browser core restores match Overview", () => {
   assert.ok(match?.overview?.teams?.length);
 });
 
+test("role filter includes champions with that Data Dragon role", () => {
+  const marksmen = core.buildStatsFromData(data, { map: "mayhem", role: "Marksman" }, { champions });
+  assert.equal(marksmen.summary.totalGames, 1);
+  assert.deepEqual(marksmen.champions.map((row) => row.champion), ["Jinx"]);
+  assert.ok(marksmen.matches.every((match) => match.champion === "Jinx"));
+
+  const mages = core.buildStatsFromData(data, { map: "mayhem", role: "Mage" }, { champions });
+  assert.equal(mages.summary.totalGames, 1);
+  assert.deepEqual(mages.champions.map((row) => row.champion), ["Lux"]);
+});
+
 test("100-match moving win rate starts at the 100th match", () => {
   const matches = Array.from({ length: 105 }, (_, index) => ({ victory: index >= 100 }));
   const series = core.calculateWinRateSeries(matches, 100);
@@ -75,4 +86,12 @@ test("saved absolute match time survives a later archive refresh", () => {
 
   const stats = core.buildStatsFromData(refreshed, { map: "mayhem" }, { champions });
   assert.equal(stats.matches[0].playedAt, "2026-08-08T10:00:00.000Z");
+});
+
+test("match time is derived from fetched time and displayed as an absolute Japan time", () => {
+  const stats = core.buildStatsFromData(data, { map: "mayhem" }, { champions });
+
+  assert.equal(stats.matches[0].playedAt, "2026-08-08T09:00:00.000Z");
+  assert.equal(core.formatAbsoluteTime(stats.matches[0].playedAt), "2026/08/08 18:00");
+  assert.equal(stats.champions.find((row) => row.champion === "Jinx").lastPlayed, "2026-08-08T09:00:00.000Z");
 });

@@ -19,4 +19,11 @@ test("stats are built from the saved JSON", async () => {
   assert.ok(stats.augments.length > 0);
   assert.ok(stats.augments.every((augment) => augment.games > 0 && augment.acquisitionRate > 0));
   assert.ok(stats.matches.every((match) => match.map.includes("Mayhem")));
+  assert.equal(stats.matches[0].playedAt, "2026-08-08T09:00:00.000Z");
+});
+
+test("server-side stats apply the selected champion role", async () => {
+  const stats = await buildStatsFromData(data, { map: "mayhem", role: "Marksman" });
+  assert.equal(stats.summary.totalGames, 1);
+  assert.deepEqual(stats.champions.map((row) => row.champion), ["Jinx"]);
 });
