@@ -9,8 +9,7 @@ const decimal = (value) => value == null || !Number.isFinite(Number(value)) ? "�
 const duration = (seconds) => seconds == null ? "—" : `${Math.floor(seconds / 60)}分 ${Math.round(seconds % 60)}秒`;
 const matchTime = (value) => PlayaramCore.formatAbsoluteTime(value);
 const notice = (message, type = "error") => { const node = $("playaramNotice"); node.className = message ? `notice ${type}` : "notice hidden"; node.textContent = message || ""; };
-const normalizeName = (value) => String(value || "").toLowerCase().replace(/[^a-z0-9]/g, "");
-function championInfo(name) { const key = normalizeName(name); return state.champions.find((champion) => normalizeName(champion.id) === key || normalizeName(champion.name) === key) || null; }
+function championInfo(name) { return PlayaramCore.findChampion(name, state.champions); }
 function championIcon(name, size = "") { const info = championInfo(name); if (!info?.id || !state.version) return `<span class="playaram-champion-fallback ${size}">${escapeHtml(name)}</span>`; return `<img class="playaram-champion-icon ${size}" src="https://ddragon.leagueoflegends.com/cdn/${state.version}/img/champion/${info.id}.png" alt="${escapeHtml(name)}" loading="lazy" />`; }
 function displayChampion(name) { return championInfo(name)?.name || name || "不明"; }
 function kdaRatio(row) { return row.avgDeaths ? (row.avgKills + row.avgAssists) / row.avgDeaths : (row.avgKills || row.avgAssists ? row.avgKills + row.avgAssists : null); }

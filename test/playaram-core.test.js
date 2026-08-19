@@ -37,6 +37,11 @@ test("role filter includes champions with that Data Dragon role", () => {
   assert.deepEqual(mages.champions.map((row) => row.champion), ["Lux"]);
 });
 
+test("champion icons resolve from both internal and Japanese champion names", () => {
+  assert.equal(core.findChampion("TwistedFate", champions)?.id, "TwistedFate");
+  assert.equal(core.findChampion("ツイステッド・フェイト", champions)?.id, "TwistedFate");
+});
+
 test("100-match moving win rate starts at the 100th match", () => {
   const matches = Array.from({ length: 105 }, (_, index) => ({ victory: index >= 100 }));
   const series = core.calculateWinRateSeries(matches, 100);
@@ -88,10 +93,10 @@ test("saved absolute match time survives a later archive refresh", () => {
   assert.equal(stats.matches[0].playedAt, "2026-08-08T10:00:00.000Z");
 });
 
-test("match time is derived from fetched time and displayed as an absolute Japan time", () => {
+test("match time is derived from fetched time and displayed as a Japan date", () => {
   const stats = core.buildStatsFromData(data, { map: "mayhem" }, { champions });
 
   assert.equal(stats.matches[0].playedAt, "2026-08-08T09:00:00.000Z");
-  assert.equal(core.formatAbsoluteTime(stats.matches[0].playedAt), "2026/08/08 18:00");
+  assert.equal(core.formatAbsoluteTime(stats.matches[0].playedAt), "2026/08/08");
   assert.equal(stats.champions.find((row) => row.champion === "Jinx").lastPlayed, "2026-08-08T09:00:00.000Z");
 });

@@ -5,12 +5,13 @@
   if (typeof module === "object" && module.exports) module.exports = api;
   if (root) root.PlayaramCore = api;
 })(typeof globalThis !== "undefined" ? globalThis : this, function createCore() {
-  function normalizeName(value) { return String(value || "").normalize("NFKC").toLocaleLowerCase("ja").replace(/[\s#_\-]/g, ""); }
+  function normalizeName(value) { return String(value || "").normalize("NFKC").toLocaleLowerCase("ja").replace(/[\s#_\-.'’・]/g, ""); }
   function focusName(data) { return data?.profile?.name || String(data?.profile?.riotId || "アップロードユーザー").split("#")[0]; }
   function parseRelativeTime(value, anchor) { const match = String(value || "").toLowerCase().match(/(\d+)\s*(mo|w|d|h|m)\s*ago/); if (!match) return new Date(anchor); const units = { m: 60_000, h: 3_600_000, d: 86_400_000, w: 604_800_000, mo: 2_592_000_000 }; return new Date(anchor - Number(match[1]) * units[match[2]]); }
-  function formatAbsoluteTime(value) { const time = Date.parse(value); if (!Number.isFinite(time)) return "—"; return new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }).format(time); }
+  function formatAbsoluteTime(value) { const time = Date.parse(value); if (!Number.isFinite(time)) return "—"; return new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", year: "numeric", month: "2-digit", day: "2-digit" }).format(time); }
   function mapMatches(summary, mapFilter) { if (mapFilter === "all") return true; if (mapFilter === "aram") return summary.map === "ARAM"; return String(summary.map || "").includes("Mayhem"); }
-  function championFromCatalog(name, catalog) { const key = normalizeName(name); return Object.values(catalog.champions || {}).find((champion) => normalizeName(champion.id) === key || normalizeName(champion.name) === key) || null; }
+  function findChampion(name, catalog) { const key = normalizeName(name); const rows = Array.isArray(catalog) ? catalog : Object.values(catalog?.champions || catalog || {}); return rows.find((champion) => normalizeName(champion.id) === key || normalizeName(champion.name) === key) || null; }
+  function championFromCatalog(name, catalog) { return findChampion(name, catalog); }
   function roleMatches(entry, role, catalog) { return role === "all" || (championFromCatalog(entry.champion, catalog)?.roles || []).includes(role); }
   function playerFromOverview(detail, playerName) { return (detail?.overview?.teams || []).flatMap((team) => team.players || []).find((player) => normalizeName(player.name) === normalizeName(playerName)) || null; }
   function opponentChampionsFromOverview(detail, playerName) {
@@ -74,5 +75,5 @@
     return { profile: data.profile, source: data.source, fetchedAt: data.fetchedAt, filters, summary: { totalGames: entries.length, wins, losses: entries.length - wins, winRate: entries.length ? wins / entries.length * 100 : 0, detailedGames: entries.filter((entry) => entry.detailed).length, uniqueChampions: championRows.length, approximateDates: true }, champions: championRows, items: itemRows, augments: augmentRows, teammates: teammateRows, opponents: opponentRows, unusedChampions, matches: entries, recent: entries.slice(0, 60), maps: { mayhem: periodEntries.filter((entry) => mapMatches(entry, "mayhem")).length, aram: periodEntries.filter((entry) => mapMatches(entry, "aram")).length, all: periodEntries.length } };
   }
   function getMatchFromData(input, gameId) { const data = validateData(input), index = data.summaries.findIndex((summary) => Number(summary.gameId) === Number(gameId)); if (index < 0) return null; const detail = data.details.find((entry) => Number(entry.gameId) === Number(gameId)); if (!detail?.overview) return null; return { summary: entryFromSummary(data.summaries[index], detail, index, Date.parse(data.fetchedAt || new Date().toISOString()), focusName(data)), overview: detail.overview, profile: data.profile }; }
-  return { buildStatsFromData, calculateWinRateSeries, formatAbsoluteTime, getMatchFromData, parseRelativeTime, validateData };
+  return { buildStatsFromData, calculateWinRateSeries, findChampion, formatAbsoluteTime, getMatchFromData, parseRelativeTime, validateData };
 });
