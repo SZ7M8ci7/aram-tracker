@@ -79,7 +79,23 @@ async function uploadJson(file) {
   notice(`${state.data.profile?.riotId || state.data.profile?.name || file.name} を表示しました。`, "success");
 }
 async function loadAssets() { const [championsResponse, metaResponse, dictionaryResponse] = await Promise.all([fetch("./data/champions.json"), fetch("./data/champions.meta.json"), fetch("./data/playaram-dictionary.json")]); if (![championsResponse, metaResponse, dictionaryResponse].every((response) => response.ok)) throw new Error("表示用辞書を読み込めませんでした。"); const champions = await championsResponse.json(), meta = await metaResponse.json(); state.champions = Object.values(champions || {}); state.version = meta.version; state.dictionary = await dictionaryResponse.json(); }
-async function openUploadedMatch(link) { const detailWindow = window.open("about:blank", "_blank"); const url = new URL(link.href); const gameId = url.searchParams.get("gameId"); notice("試合詳細を準備しています…", "info"); const payload = PlayaramCore.getMatchFromData(state.rawData, gameId); if (!payload) { detailWindow?.close(); throw new Error("試合詳細を読み込めませんでした。"); } localStorage.setItem(`playaram-match:${gameId}`, JSON.stringify(payload)); if (detailWindow) detailWindow.location.href = link.href; else location.href = link.href; notice(""); }
+async function openUploadedMatch(link) {
+  const detailWindow = window.open("about:blank", "_blank");
+  try {
+    const gameId = new URL(link.href).searchParams.get("gameId");
+    notice("試合詳細を準備しています…", "info");
+    const payload = PlayaramCore.getMatchFromData(state.rawData, gameId);
+    if (!payload) throw new Error("試合詳細を読み込めませんでした。");
+    // 別タブのsessionStorageへ直接渡す。24時間キャッシュの容量とは競合しない。
+    const target = detailWindow || window;
+    target.sessionStorage.setItem("playaram-match-current", JSON.stringify(payload));
+    target.location.href = link.href;
+    notice("");
+  } catch (error) {
+    detailWindow?.close();
+    throw error;
+  }
+}
 function collectFilters() { state.filters = { minGames: $("minGames").value, minWinRate: $("minWinRate").value, from: $("fromDate").value, to: $("toDate").value }; }
 
 $("mapFilter").addEventListener("change", async (event) => { state.map = event.target.value; try { await load(); } catch (error) { notice(error.message); } });

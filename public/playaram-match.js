@@ -29,6 +29,20 @@ function render(payload) {
   focusName = payload.profile?.name || String(payload.profile?.riotId || "アップロードユーザー").split("#")[0];
   root.innerHTML = `<section class="playaram-match-head"><div class="match-champion-summary">${championIcon(summary.champion)}<div><p class="eyebrow">MATCH ${summary.gameId} · ${escapeHtml(summary.map)}</p><h1>${escapeHtml(summary.champion)}</h1><p class="subtitle">${escapeHtml(payload.profile?.riotId || "アップロードユーザー")} · ${escapeHtml(matchTime(summary.playedAt))} · ${escapeHtml(summary.durationText || "—")}</p></div></div><span class="detail-result ${summary.victory ? "victory" : "defeat"}">${summary.victory ? "VICTORY" : "DEFEAT"}</span></section><section class="detail-grid playaram-detail-grid">${stat("K / D / A", `${summary.kills} / ${summary.deaths} / ${summary.assists}`)}${stat("KDAレシオ", summary.kdaRatio == null ? "—" : Number(summary.kdaRatio).toFixed(2))}${stat("与ダメージ", number(summary.damageDealt))}${stat("被ダメージ", number(summary.damageTaken))}${stat("ゴールド", number(summary.gold))}${stat("CS", number(summary.cs))}${stat("レベル", summary.level)}${stat("オーグメント", (summary.augments || []).length)}</section><section class="detail-build"><h2>自分のビルド</h2><div class="detail-build-icons">${(summary.items || []).map((item) => `<span title="${escapeHtml(itemInfo(item).ja || item)}">${itemIcon(item, "large")}<small>${escapeHtml(itemInfo(item).ja || item)}</small></span>`).join("") || "—"}</div></section>${(overview.teams || []).map((team) => `<section class="overview-team"><header><div><p class="eyebrow">${escapeHtml(team.side || "TEAM")}</p><h2>${escapeHtml(team.result || "—")}</h2></div><strong class="overview-kills">${team.kills ?? "—"} KILLS</strong></header><div class="table-wrap"><table class="overview-table"><thead><tr><th>使用キャラ</th><th>プレイヤー</th><th>オーグメント</th><th>KDA</th><th>ダメージ</th><th>ゴールド</th><th>CS</th><th>アイテムビルド</th></tr></thead><tbody>${(team.players || []).map(playerRow).join("")}</tbody></table></div></section>`).join("")}`;
 }
-async function init() { if (!gameId) throw new Error("試合が指定されていません。"); const [dictionaryResponse, championsResponse, championMetaResponse] = await Promise.all([fetch("./data/playaram-dictionary.json"), fetch("./data/champions.json"), fetch("./data/champions.meta.json")]); if (![dictionaryResponse, championsResponse, championMetaResponse].every((response) => response.ok)) throw new Error("表示用辞書を読み込めませんでした。"); dictionary = await dictionaryResponse.json(); champions = Object.values(await championsResponse.json()); championVersion = (await championMetaResponse.json()).version || championVersion; const saved = sessionStorage.getItem(`playaram-match:${gameId}`) || localStorage.getItem(`playaram-match:${gameId}`); if (!saved) throw new Error("試合データがありません。JSONファイルを選び直してください。"); render(JSON.parse(saved)); }
+function readMatchPayload() {
+  const candidates = [
+    () => sessionStorage.getItem("playaram-match-current"),
+    () => sessionStorage.getItem(`playaram-match:${gameId}`),
+    () => localStorage.getItem(`playaram-match:${gameId}`)
+  ];
+  for (const read of candidates) {
+    try {
+      const payload = JSON.parse(read());
+      if (payload?.overview && String(payload.summary?.gameId) === String(gameId)) return payload;
+    } catch (_) { /* 旧保存データの破損や保存先へのアクセス拒否は次の候補へ */ }
+  }
+  throw new Error("試合データがありません。トラッカーから試合詳細を開き直してください。");
+}
+async function init() { if (!gameId) throw new Error("試合が指定されていません。"); const [dictionaryResponse, championsResponse, championMetaResponse] = await Promise.all([fetch("./data/playaram-dictionary.json"), fetch("./data/champions.json"), fetch("./data/champions.meta.json")]); if (![dictionaryResponse, championsResponse, championMetaResponse].every((response) => response.ok)) throw new Error("表示用辞書を読み込めませんでした。"); dictionary = await dictionaryResponse.json(); champions = Object.values(await championsResponse.json()); championVersion = (await championMetaResponse.json()).version || championVersion; render(readMatchPayload()); }
 document.querySelector(".back-link").addEventListener("click", (event) => { if (!uploadedSource) return; event.preventDefault(); window.close(); });
 init().catch((error) => { root.innerHTML = `<p class="detail-message">${escapeHtml(error.message)}</p>`; });
