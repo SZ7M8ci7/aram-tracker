@@ -117,36 +117,34 @@ async function initialize() {
   $("emptyState").classList.add("hidden");
   $("sharedDriveLink").href = source.viewUrl;
   const endpoint = window.PlayaramConfig?.gasEndpoint;
-  const select = $("remoteFile"), button = $("remoteLoad"), refresh = $("remoteRefresh"), status = $("sharedInstructions");
+  const select = $("remoteFile"), button = $("remoteLoad"), status = $("sharedInstructions");
   const params = { sourceId: source.id, kind: source.kind };
-  const force = $("remoteForce");
   const reader = PlayaramCache.createReader({ endpoint, params, request: PlayaramRemote.request, validate: PlayaramCore.validateData });
-  async function listFiles(fresh = false) {
+  async function listFiles() {
     const previous = select.value;
-    select.disabled = button.disabled = refresh.disabled = force.disabled = true;
+    select.disabled = button.disabled = true;
     status.textContent = "ファイル一覧を取得しています…";
     select.replaceChildren(new Option("一覧を取得中…", ""));
     try {
-      const result = await PlayaramRemote.request(endpoint, { ...params, action: "list", ...(fresh ? { refresh: "1" } : {}) });
+      const result = await PlayaramRemote.request(endpoint, { ...params, action: "list" });
       if (!Array.isArray(result.files)) throw new Error("ファイル一覧の形式が不正です。");
       select.replaceChildren(...result.files.map(file => new Option(file.name, file.id)));
       if (result.files.some(file => file.id === previous)) select.value = previous;
-      select.disabled = button.disabled = force.disabled = !result.files.length;
+      select.disabled = button.disabled = !result.files.length;
       status.textContent = result.files.length ? `${result.files.length}件のJSONがあります。選んで「読み込む」を押してください。` : "読み込めるJSONがありません。";
     } catch (error) {
       select.replaceChildren(new Option("一覧を取得できませんでした", ""));
-      status.textContent = error.message;
-    } finally { refresh.disabled = false; }
+      status.textContent = `${error.message} ページを再読み込みしてお試しください。`;
+    }
   }
-  refresh.addEventListener("click", () => listFiles(true));
-  async function readFile(fresh = false) {
+  async function readFile() {
     const id = select.value, name = select.selectedOptions[0]?.textContent;
     if (!id) return;
-    button.disabled = select.disabled = refresh.disabled = force.disabled = true;
+    button.disabled = select.disabled = true;
     const generation = ++uploadGeneration;
-    status.textContent = `${name} の更新を確認しています…`;
+    status.textContent = `${name} を読み込んでいます…`;
     try {
-      const result = await reader.read(id, fresh);
+      const result = await reader.read(id);
       const data = result.data;
       await assetsReady;
       if (generation !== uploadGeneration) { status.textContent = "ローカルファイルの表示を優先しました。"; return; }
@@ -154,10 +152,9 @@ async function initialize() {
       await load();
       status.textContent = `${name} を表示しました。${result.reused ? "保存から24時間以内：再取得せず保存済みJSONを使用しました。" : result.stored ? "最新データを取得し、このブラウザに24時間保存しました。" : "最新データを取得しました（キャッシュ保存なし）。"}`;
     } catch (error) { status.textContent = error.message; }
-    finally { button.disabled = select.disabled = refresh.disabled = force.disabled = false; }
+    finally { button.disabled = select.disabled = false; }
   }
-  button.addEventListener("click", () => readFile(false));
-  force.addEventListener("click", () => readFile(true));
+  button.addEventListener("click", () => readFile());
   await listFiles();
 }
 assetsReady.catch((error) => notice(error.message));

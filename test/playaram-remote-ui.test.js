@@ -9,6 +9,7 @@ const init = source.slice(source.indexOf("async function initialize()"), source.
 function fixture(search) {
   const elements = new Map(), calls = [], state = {};
   const $ = id => {
+    assert.ok(!["remoteRefresh", "remoteForce"].includes(id), "removed buttons must not be accessed");
     if (!elements.has(id)) elements.set(id, {
       classList: { add() {}, remove() {} }, events: {},
       addEventListener(type, fn) { this.events[type] = fn; },
@@ -26,7 +27,7 @@ function fixture(search) {
   vm.runInContext(init, context);
   return { context, calls, $, state };
 }
-test("opening shared page lists only; clicking load reads selected JSON; refreshing lists only", async () => {
+test("opening shared page lists only; clicking load reads selected JSON without removed buttons", async () => {
   const f = fixture("?src=" + encodeURIComponent("https://drive.google.com/drive/folders/abcdefghij123"));
   await f.context.initialize();
   assert.deepEqual(f.calls.map(p => p.action), ["list"]);
@@ -36,11 +37,8 @@ test("opening shared page lists only; clicking load reads selected JSON; refresh
   assert.equal(f.calls[1].fileId, "file123");
   assert.equal(f.state.rendered, true);
   assert.equal(f.$("remoteLoad").disabled, false);
-  await f.$("remoteRefresh").events.click();
-  assert.deepEqual(f.calls.map(p => p.action), ["list", "read", "list"]);
-  assert.equal(f.calls[2].refresh, "1");
-  await f.$("remoteForce").events.click();
-  assert.equal(f.calls[3].refresh, "1");
+  const html = fs.readFileSync(require("node:path").join(__dirname, "../public/playaram.html"), "utf8");
+  assert.doesNotMatch(html, /remoteRefresh|remoteForce|最新を取得|一覧を更新/);
 });
 test("ordinary page never requests GAS", async () => {
   const f = fixture("");

@@ -27,11 +27,9 @@
         <div class="header-actions">
           <label>戦績ファイル <select id="remoteFile" disabled><option value="">一覧を取得中…</option></select></label>
           <button id="remoteLoad" class="button-primary" type="button" disabled>読み込む</button>
-          <button id="remoteForce" class="button-ghost" type="button" disabled>最新を取得</button>
-          <button id="remoteRefresh" class="button-ghost" type="button" disabled>一覧を更新</button>
           <a id="sharedDriveLink" class="file-button" target="_blank" rel="noopener noreferrer">Google Driveを開く</a>
         </div>
-        <p>保存から24時間以内は、更新確認やJSONの再取得をせず保存データを使います。「最新を取得」は24時間以内でも取り直します。一覧は最大60秒キャッシュします。</p>
+        <p>保存から24時間以内は、更新確認やJSONの再取得をせず保存データを使います。24時間経過後の読み込み時に再取得します。一覧はページ表示時に取得し、最大60秒キャッシュします。</p>
       </section>
 
       <section id="emptyState" class="panel upload-empty-state">
@@ -85,6 +83,6 @@
     <script src="./playaram-config.js?v=20261020-2" defer></script>
     <script src="./playaram-remote.js?v=20261020-3" defer></script>
     <script src="./playaram-cache.js?v=20261020-2" defer></script>
-    <script src="./playaram.js?v=20261020-5" defer></script>
+    <script src="./playaram.js?v=20261020-6" defer></script>
   </body>
 </html>
