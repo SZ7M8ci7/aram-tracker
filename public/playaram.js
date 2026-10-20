@@ -66,7 +66,14 @@ function renderChart() {
   ctx.font = "10px sans-serif"; for (let value = yMin; value <= yMax; value += 5) { const y = pad.t + innerH * (1 - (value - yMin) / Math.max(1, yMax - yMin)); ctx.strokeStyle = value === 50 ? "rgba(215,173,91,.48)" : "rgba(140,155,180,.16)"; ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(width - pad.r, y); ctx.stroke(); ctx.fillStyle = value === 50 ? "#d7ad5b" : "#91a0b8"; ctx.fillText(`${value}%`, 6, y + 3); }
   const xAt = (index) => pad.l + (points.length === 1 ? innerW / 2 : innerW * index / (points.length - 1)); const yAt = (rate) => pad.t + innerH * (1 - (rate - yMin) / Math.max(1, yMax - yMin)); const coords = points.map((point, index) => [xAt(index), yAt(point.cumulativeRate)]); const gradient = ctx.createLinearGradient(0, pad.t, 0, height - pad.b); gradient.addColorStop(0, "rgba(82,217,208,.22)"); gradient.addColorStop(1, "rgba(82,217,208,0)"); ctx.beginPath(); coords.forEach(([x, y], index) => index ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.lineTo(coords.at(-1)[0], height - pad.b); ctx.lineTo(coords[0][0], height - pad.b); ctx.closePath(); ctx.fillStyle = gradient; ctx.fill(); ctx.beginPath(); coords.forEach(([x, y], index) => index ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.strokeStyle = "#52d9d0"; ctx.lineWidth = 2; ctx.stroke(); const last = coords.at(-1); ctx.fillStyle = "#52d9d0"; ctx.beginPath(); ctx.arc(last[0], last[1], 4, 0, Math.PI * 2); ctx.fill(); const movingCoords = points.map((point, index) => point.movingRate == null ? null : [xAt(index), yAt(point.movingRate)]).filter(Boolean); if (movingCoords.length) { ctx.beginPath(); movingCoords.forEach(([x, y], index) => index ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.strokeStyle = "#d7ad5b"; ctx.lineWidth = 2.5; ctx.stroke(); const movingLast = movingCoords.at(-1); ctx.fillStyle = "#d7ad5b"; ctx.beginPath(); ctx.arc(movingLast[0], movingLast[1], 4, 0, Math.PI * 2); ctx.fill(); } ctx.fillStyle = "#91a0b8"; ctx.fillText(points[0].date, pad.l, height - 8); ctx.fillText(points.at(-1).date, Math.max(pad.l, width - pad.r - 70), height - 8);
 }
-async function load() { if (!state.rawData) return; state.data = PlayaramCore.buildStatsFromData(state.rawData, { map: state.map, role: state.role, ...state.filters }, { champions: Object.fromEntries(state.champions.map((champion) => [champion.id, champion])) }); state.expanded = null; $("emptyState").classList.add("hidden"); $("dataContent").classList.remove("hidden"); $("compactSummary").classList.remove("hidden"); renderSummary(); renderChampions(); renderItems(); renderAugments(); renderOpponents(); renderUnused(); renderTeammates(); renderRecent(); renderChart(); notice(""); }
+function renderClassRadar() {
+  if (!state.wikiClasses) { $("classRadarStatus").textContent = "分類データを読み込めませんでした。ページを再読み込みしてください。"; return; }
+  const stats = PlayaramRadar.aggregate(state.data.matches || [], state.wikiClasses, state.champions);
+  $("classRadar").innerHTML = PlayaramRadar.svg(stats);
+  $("classRadarTotal").textContent = `${stats.total.toLocaleString("ja-JP")}試合`;
+  $("classRadarStatus").textContent = !stats.total ? "対象の試合がありません。" : stats.unknown ? `分類表に未掲載の${stats.unknown}試合は各軸に加算していません。` : "";
+}
+async function load() { if (!state.rawData) return; state.data = PlayaramCore.buildStatsFromData(state.rawData, { map: state.map, role: state.role, ...state.filters }, { champions: Object.fromEntries(state.champions.map((champion) => [champion.id, champion])) }); state.expanded = null; $("emptyState").classList.add("hidden"); $("dataContent").classList.remove("hidden"); $("compactSummary").classList.remove("hidden"); renderSummary(); renderChampions(); renderItems(); renderAugments(); renderOpponents(); renderUnused(); renderTeammates(); renderRecent(); renderChart(); renderClassRadar(); notice(""); }
 async function uploadJson(file) {
   if (!file) return;
   const generation = ++uploadGeneration;
@@ -125,7 +132,7 @@ document.addEventListener("drop", async (event) => {
   if (files.length !== 1 || !/\.json$/i.test(files[0].name)) { notice("戦績JSONファイルを1つドロップしてください。"); return; }
   try { await uploadJson(files[0]); } catch (error) { notice(error.message); }
 });
-const assetsReady = loadAssets();
+const assetsReady = Promise.all([loadAssets(), fetch("./data/wiki-champion-classes.json?v=20261020-1").then(response => { if (!response.ok) throw new Error("Class data unavailable"); return response.json(); }).then(data => { state.wikiClasses = data.groups; }).catch(() => { state.wikiClasses = null; })]);
 async function initialize() {
   const source = PlayaramRemote.parseSource(location.search);
   if (!source) return;

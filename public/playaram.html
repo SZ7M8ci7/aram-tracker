@@ -6,7 +6,7 @@
     <meta name="referrer" content="strict-origin" />
     <title>ARAMトラッカー</title>
     <link rel="stylesheet" href="./style.css?v=20260809-6" />
-    <link rel="stylesheet" href="./playaram.css?v=20260819-1" />
+    <link rel="stylesheet" href="./playaram.css?v=20261020-1" />
   </head>
   <body class="playaram-page">
     <div class="page-glow"></div>
@@ -39,6 +39,13 @@
       </section>
 
       <div id="dataContent" class="hidden">
+
+      <section class="panel playaram-panel" aria-labelledby="classRadarHeading">
+        <div class="panel-heading"><div><p class="eyebrow">CHAMPION CLASSES</p><h2 id="classRadarHeading">クラス別使用傾向</h2></div><span id="classRadarTotal" class="muted"></span></div>
+        <div id="classRadar" class="class-radar"></div>
+        <p id="classRadarStatus" class="muted" role="status"></p>
+        <p class="muted">使用試合数の割合（複数分類はそれぞれに加算） · <a href="https://www.loljp-wiki.jp/wiki/?データベース/チャンピオン/種類別" target="_blank" rel="noopener noreferrer">LoLJPWikiの6分類</a></p>
+      </section>
 
       <section class="panel playaram-panel stats-panel">
         <div class="panel-heading stats-heading">
@@ -82,6 +89,7 @@
     <script src="./playaram-config.js?v=20261020-2" defer></script>
     <script src="./playaram-remote.js?v=20261020-3" defer></script>
     <script src="./playaram-cache.js?v=20261020-2" defer></script>
-    <script src="./playaram.js?v=20261020-7" defer></script>
+    <script src="./playaram-radar.js?v=20261020-1" defer></script>
+    <script src="./playaram.js?v=20261020-8" defer></script>
   </body>
 </html>
