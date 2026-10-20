@@ -33,6 +33,8 @@
       for (const [key, value] of Object.entries(params)) url.searchParams.set(key, value);
       url.searchParams.set("callback", callback);
       const script = env.document.createElement("script");
+      // Googleへのログイン状態に依存させず、クロスオリジンCookieを送らない。
+      script.crossOrigin = "anonymous";
       let timer;
       const cleanup = () => { env.clearTimeout(timer); script.remove(); delete env[callback]; };
       env[callback] = (result) => {

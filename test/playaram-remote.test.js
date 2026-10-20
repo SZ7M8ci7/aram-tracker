@@ -16,6 +16,7 @@ function transport(mode) {
   const env = { setTimeout: fn => { timer = fn; return 1; }, clearTimeout: () => {}, document: {
     createElement: () => ({ remove: () => { removed = true; } }),
     head: { appendChild: script => {
+      assert.equal(script.crossOrigin, "anonymous");
       const url = new URL(script.src), callback = url.searchParams.get("callback");
       if (mode === "timeout") timer();
       else if (mode === "network") script.onerror();
