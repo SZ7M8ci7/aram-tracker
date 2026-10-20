@@ -19,7 +19,32 @@
     const view = new URL(kind === "folder" ? `https://drive.google.com/drive/folders/${id}` : `https://drive.google.com/file/d/${id}/view`);
     const resourceKey = url.searchParams.get("resourcekey");
     if (resourceKey) view.searchParams.set("resourcekey", resourceKey);
-    return { kind, viewUrl: view.href };
+    return { kind, id, viewUrl: view.href };
   }
-  return { parseSource };
+  function endpointUrl(endpoint) {
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(endpoint || "")) throw new Error("管理者によるGAS公開URLの設定が必要です。");
+    return new URL(endpoint);
+  }
+  let sequence = 0;
+  function request(endpoint, params, env = globalThis, timeoutMs = 60000) {
+    return new Promise((resolve, reject) => {
+      const url = endpointUrl(endpoint);
+      const callback = `playaram_${Date.now()}_${++sequence}`;
+      for (const [key, value] of Object.entries(params)) url.searchParams.set(key, value);
+      url.searchParams.set("callback", callback);
+      const script = env.document.createElement("script");
+      let timer;
+      const cleanup = () => { env.clearTimeout(timer); script.remove(); delete env[callback]; };
+      env[callback] = (result) => {
+        cleanup();
+        if (result?.ok === true) resolve(result);
+        else reject(new Error(result?.error || "Driveから取得できませんでした。"));
+      };
+      script.onerror = () => { cleanup(); reject(new Error("GASに接続できません。公開設定と通信環境を確認してください。")); };
+      timer = env.setTimeout(() => { cleanup(); reject(new Error("取得がタイムアウトしました。もう一度お試しください。")); }, timeoutMs);
+      script.src = url.href;
+      env.document.head.appendChild(script);
+    });
+  }
+  return { parseSource, endpointUrl, request };
 });

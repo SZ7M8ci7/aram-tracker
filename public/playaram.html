@@ -23,12 +23,14 @@
       <section id="playaramNotice" class="notice hidden"></section>
       <section id="sharedSource" class="panel hidden" style="padding:20px;margin-bottom:16px">
         <h2>共有された戦績を表示</h2>
-        <p id="sharedInstructions">Google DriveからJSONをダウンロードし、このページにドロップしてください。</p>
+        <p id="sharedInstructions" role="status" aria-live="polite">ファイル一覧を取得しています…</p>
         <div class="header-actions">
-          <a id="sharedDriveLink" class="file-button" target="_blank" rel="noopener noreferrer">1. Google Driveを開く</a>
-          <label class="file-button" for="jsonUpload">2. ダウンロードしたJSONを選択</label>
+          <label>戦績ファイル <select id="remoteFile" disabled><option value="">一覧を取得中…</option></select></label>
+          <button id="remoteLoad" class="button-primary" type="button" disabled>読み込む</button>
+          <button id="remoteRefresh" class="button-ghost" type="button" disabled>一覧を更新</button>
+          <a id="sharedDriveLink" class="file-button" target="_blank" rel="noopener noreferrer">Google Driveを開く</a>
         </div>
-        <p>ダウンロード済みなら、JSONの選択またはドロップだけで表示できます。</p>
+        <p>JSON本体は「読み込む」を押したときだけ取得します。</p>
       </section>
 
       <section id="emptyState" class="panel upload-empty-state">
@@ -79,7 +81,8 @@
       <footer><p id="playaramDataSource">JSONを選択すると、この画面上で集計します。</p><p>外部の戦績サービスやゲームクライアントには接続しません。</p></footer>
     </main>
     <script src="./playaram-core.js?v=20260819-4" defer></script>
-    <script src="./playaram-remote.js?v=20261020-1" defer></script>
-    <script src="./playaram.js?v=20261020-1" defer></script>
+    <script src="./playaram-config.js?v=20261020-2" defer></script>
+    <script src="./playaram-remote.js?v=20261020-2" defer></script>
+    <script src="./playaram.js?v=20261020-2" defer></script>
   </body>
 </html>

@@ -111,13 +111,48 @@ document.addEventListener("drop", async (event) => {
 });
 const assetsReady = loadAssets();
 async function initialize() {
-  await assetsReady;
   const source = PlayaramRemote.parseSource(location.search);
   if (!source) return;
   $("sharedSource").classList.remove("hidden");
   $("emptyState").classList.add("hidden");
   $("sharedDriveLink").href = source.viewUrl;
-  $("sharedDriveLink").textContent = source.kind === "folder" ? "1. 共有フォルダーを開く" : "1. Google DriveでJSONを開く";
-  $("sharedInstructions").textContent = source.kind === "folder" ? "共有フォルダーで見たいユーザーのJSONをダウンロードし、このページにドロップしてください。" : "Google DriveでこのJSONをダウンロードし、このページにドロップしてください。";
+  const endpoint = window.PlayaramConfig?.gasEndpoint;
+  const select = $("remoteFile"), button = $("remoteLoad"), refresh = $("remoteRefresh"), status = $("sharedInstructions");
+  const params = { sourceId: source.id, kind: source.kind };
+  async function listFiles() {
+    select.disabled = button.disabled = refresh.disabled = true;
+    status.textContent = "ファイル一覧を取得しています…";
+    select.replaceChildren(new Option("一覧を取得中…", ""));
+    try {
+      const result = await PlayaramRemote.request(endpoint, { ...params, action: "list" });
+      if (!Array.isArray(result.files)) throw new Error("ファイル一覧の形式が不正です。");
+      select.replaceChildren(...result.files.map(file => new Option(file.name, file.id)));
+      select.disabled = button.disabled = !result.files.length;
+      status.textContent = result.files.length ? `${result.files.length}件のJSONがあります。選んで「読み込む」を押してください。` : "読み込めるJSONがありません。";
+    } catch (error) {
+      select.replaceChildren(new Option("一覧を取得できませんでした", ""));
+      status.textContent = error.message;
+    } finally { refresh.disabled = false; }
+  }
+  refresh.addEventListener("click", listFiles);
+  button.addEventListener("click", async () => {
+    const id = select.value, name = select.selectedOptions[0]?.textContent;
+    if (!id) return;
+    button.disabled = select.disabled = refresh.disabled = true;
+    const generation = ++uploadGeneration;
+    status.textContent = `${name} を取得しています…`;
+    try {
+      const result = await PlayaramRemote.request(endpoint, { ...params, action: "read", fileId: id });
+      const data = PlayaramCore.validateData(result.data);
+      await assetsReady;
+      if (generation !== uploadGeneration) { status.textContent = "ローカルファイルの表示を優先しました。"; return; }
+      state.rawData = data; state.sourceFile = null;
+      await load();
+      status.textContent = `${name} を表示しました。`;
+    } catch (error) { status.textContent = error.message; }
+    finally { button.disabled = select.disabled = refresh.disabled = false; }
+  });
+  await listFiles();
 }
+assetsReady.catch((error) => notice(error.message));
 initialize().catch((error) => notice(error.message));
