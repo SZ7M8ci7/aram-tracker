@@ -38,6 +38,7 @@ test("opening shared page lists only; clicking load reads selected JSON without 
   assert.equal(f.calls[1].fileId, "file123");
   assert.equal(f.state.rendered, true);
   assert.equal(f.$("remoteLoad").disabled, false);
+  assert.equal(f.$("sharedInstructions").textContent, "");
   const html = fs.readFileSync(require("node:path").join(__dirname, "../public/playaram.html"), "utf8");
   assert.doesNotMatch(html, /remoteRefresh|remoteForce|最新を取得|一覧を更新/);
 });

@@ -155,7 +155,7 @@ async function initialize() {
       select.replaceChildren(...result.files.map(file => new Option(file.name, file.id)));
       if (result.files.some(file => file.id === previous)) select.value = previous;
       select.disabled = button.disabled = !result.files.length;
-      status.textContent = result.files.length ? `${result.files.length}件のJSONがあります。選んで「読み込む」を押してください。` : "読み込めるJSONがありません。";
+      status.textContent = result.files.length ? "" : "読み込めるJSONがありません。";
     } catch (error) {
       select.replaceChildren(new Option("一覧を取得できませんでした", ""));
       status.textContent = `${error.message} ページを再読み込みしてお試しください。`;
@@ -174,7 +174,7 @@ async function initialize() {
       if (generation !== uploadGeneration) { status.textContent = "ローカルファイルの表示を優先しました。"; return; }
       state.rawData = data; state.sourceFile = null;
       await load();
-      status.textContent = `${name} を表示しました。${result.reused ? "保存から24時間以内：再取得せず保存済みJSONを使用しました。" : result.stored ? "最新データを取得し、このブラウザに24時間保存しました。" : "最新データを取得しました（キャッシュ保存なし）。"}`;
+      status.textContent = "";
     } catch (error) { status.textContent = error.message; }
     finally { button.disabled = select.disabled = false; }
   }

@@ -30,7 +30,7 @@
     const polygon = radius => axes.map((_, i) => point(i, radius).join(",")).join(" ");
     const grid = [1,2,3,4,5].map(n => `<polygon points="${polygon(140*n/5)}" fill="none" stroke="#34445b"/><text x="306" y="${205-140*n/5+12}" fill="#8b9bb3" font-size="11">${ceiling*n/5}%</text>`).join("");
     const spokes = axes.map((_, i) => `<line x1="300" y1="205" x2="${point(i,140)[0]}" y2="${point(i,140)[1]}" stroke="#34445b"/>`).join("");
-    const labels = stats.rows.map((row,i) => { const [x,y]=point(i,182); return `<text x="${x}" y="${y}" text-anchor="middle" fill="#e4ecf7" font-size="15">${row.label}<tspan x="${x}" dy="21" fill="#91deda" font-size="13">${row.rate.toFixed(1)}% · ${row.games}試合</tspan></text>`; }).join("");
+    const labels = stats.rows.map((row,i) => { const [x,y]=point(i,182); return `<text x="${x}" y="${y}" text-anchor="middle" fill="#e4ecf7" font-size="22">${row.label}<tspan x="${x}" dy="24" fill="#91deda" font-size="18">${row.rate.toFixed(1)}% · ${row.games}試合</tspan></text>`; }).join("");
     const points = stats.rows.map((row,i) => point(i,140*row.rate/ceiling));
     return `<svg viewBox="0 0 600 420" role="img" aria-labelledby="radarTitle radarDescription"><title id="radarTitle">クラス別使用傾向</title><desc id="radarDescription">${stats.rows.map(row => `${row.label} ${row.games}試合 ${row.rate.toFixed(1)}%`).join("、")}</desc>${grid}${spokes}<polygon points="${points.map(p=>p.join(",")).join(" ")}" fill="#53cfc83d" stroke="#53cfc8" stroke-width="3"/>${points.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4" fill="#93eee8"/>`).join("")}${labels}</svg>`;
   }
