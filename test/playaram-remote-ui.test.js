@@ -12,6 +12,7 @@ function fixture(search) {
     assert.ok(!["remoteRefresh", "remoteForce"].includes(id), "removed buttons must not be accessed");
     if (!elements.has(id)) elements.set(id, {
       classList: { add() {}, remove() {} }, events: {},
+      appendChild() {},
       addEventListener(type, fn) { this.events[type] = fn; },
       replaceChildren(...options) { this.value = options[0]?.value || ""; this.selectedOptions = options.slice(0, 1); }
     });
