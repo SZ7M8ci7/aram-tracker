@@ -20,6 +20,7 @@ function fixture(search) {
     Option: function(text, value) { this.textContent = text; this.value = value; },
     PlayaramRemote: { parseSource: remote.parseSource, request: async (endpoint, p) => { calls.push(p); return p.action === "list" ? { files: [{ id: "file123", name: "test.json" }] } : { data: { matches: [] } }; } },
     PlayaramCore: { validateData: data => data }, assetsReady: Promise.resolve(), uploadGeneration: 0,
+    PlayaramCache: require("../public/playaram-cache"),
     load: async () => { state.rendered = true; }
   });
   vm.runInContext(init, context);
@@ -37,6 +38,9 @@ test("opening shared page lists only; clicking load reads selected JSON; refresh
   assert.equal(f.$("remoteLoad").disabled, false);
   await f.$("remoteRefresh").events.click();
   assert.deepEqual(f.calls.map(p => p.action), ["list", "read", "list"]);
+  assert.equal(f.calls[2].refresh, "1");
+  await f.$("remoteForce").events.click();
+  assert.equal(f.calls[3].refresh, "1");
 });
 test("ordinary page never requests GAS", async () => {
   const f = fixture("");
