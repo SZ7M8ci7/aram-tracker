@@ -4,8 +4,41 @@
   else root.PlayaramCache = api;
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
   "use strict";
-  // 大きなJSONをlocalStorageへ入れず、IndexedDBに最新3ファイルだけ保存する。
-  function createStore(env = globalThis) {
+  const TTL = 24 * 60 * 60 * 1000;
+  const PREFIX = "playaram-public-json-v2:";
+  function createStore(env = globalThis, fallback = createIndexedStore(env)) {
+    return {
+      async get(key) {
+        try {
+          const raw = env.localStorage.getItem(PREFIX + key);
+          if (raw) return JSON.parse(raw);
+        } catch (_) {}
+        return fallback.get(key);
+      },
+      async put(entry) {
+        try {
+          const storage = env.localStorage;
+          storage.setItem(PREFIX + entry.key, JSON.stringify(entry));
+          const entries = [];
+          for (let i = 0; i < storage.length; i++) {
+            const key = storage.key(i);
+            if (key.startsWith(PREFIX)) {
+              try { entries.push({ key, savedAt: JSON.parse(storage.getItem(key)).savedAt || 0 }); } catch (_) {}
+            }
+          }
+          entries.sort((a, b) => b.savedAt - a.savedAt);
+          entries.slice(3).forEach(item => storage.removeItem(item.key));
+          return;
+        } catch (_) {
+          // 古いlocalStorageを新しいIndexedDBより優先しない。
+          try { env.localStorage.removeItem(PREFIX + entry.key); } catch (_) {}
+          await fallback.put(entry);
+        }
+      }
+    };
+  }
+  // localStorageの容量を超えるJSON用の保存先。
+  function createIndexedStore(env = globalThis) {
     let opening;
     function open() {
       if (!env.indexedDB) return Promise.reject(new Error("Storage unavailable"));
@@ -54,20 +87,15 @@
         if (!force) {
           try {
             saved = await store.get(key);
-            if (!saved || typeof saved.version !== "string" || !saved.version || now() - saved.savedAt < 0 || now() - saved.savedAt > 7 * 86400000) saved = null;
+            if (!saved || !Number.isFinite(saved.savedAt) || now() - saved.savedAt < 0 || now() - saved.savedAt >= TTL) saved = null;
             if (saved) validate(saved.data);
           } catch (_) { saved = null; }
         }
-        const result = await request(endpoint, { ...params, action: "read", fileId, ...(force ? { refresh: "1" } : {}), ...(saved ? { knownVersion: saved.version } : {}) });
-        if (result.notModified) {
-          if (!saved || result.version !== saved.version) throw new Error("更新確認の応答が不正です。「最新を取得」をお試しください。");
-          return { data: validate(saved.data), reused: true };
-        }
+        if (saved) return { data: validate(saved.data), reused: true, stored: true };
+        const result = await request(endpoint, { ...params, action: "read", fileId, refresh: "1" });
         const data = validate(result.data);
         let stored = false;
-        if (typeof result.version === "string" && result.version) {
-          try { await store.put({ key, version: result.version, data, savedAt: now() }); stored = true; } catch (_) { /* 容量不足や保存拒否でも表示は続行 */ }
-        }
+        try { await store.put({ key, version: result.version || null, data, savedAt: now() }); stored = true; } catch (_) { /* 容量不足や保存拒否でも表示は続行 */ }
         return { data, reused: false, stored };
       }
     };
