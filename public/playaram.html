@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="strict-origin" />
     <title>ARAMトラッカー</title>
     <link rel="stylesheet" href="./style.css?v=20260809-6" />
     <link rel="stylesheet" href="./playaram.css?v=20260819-1" />
@@ -15,11 +16,20 @@
         <div class="header-actions">
           <div id="compactSummary" class="compact-summary hidden" aria-label="集計概要"><span>試合 <strong id="playaramTotal">—</strong></span><span>勝率 <strong id="playaramWinRate">—</strong></span><span id="playaramWinLoss">—</span></div>
           <label class="file-button" for="jsonUpload">JSONファイルを開く</label>
-          <input id="jsonUpload" class="visually-hidden-file" type="file" accept="application/json,.json" />
+          <input id="jsonUpload" class="visually-hidden-file" type="file" accept="application/json,.json" aria-label="戦績JSONを選択" />
         </div>
       </header>
 
       <section id="playaramNotice" class="notice hidden"></section>
+      <section id="sharedSource" class="panel hidden" style="padding:20px;margin-bottom:16px">
+        <h2>共有された戦績を表示</h2>
+        <p id="sharedInstructions">Google DriveからJSONをダウンロードし、このページにドロップしてください。</p>
+        <div class="header-actions">
+          <a id="sharedDriveLink" class="file-button" target="_blank" rel="noopener noreferrer">1. Google Driveを開く</a>
+          <label class="file-button" for="jsonUpload">2. ダウンロードしたJSONを選択</label>
+        </div>
+        <p>ダウンロード済みなら、JSONの選択またはドロップだけで表示できます。</p>
+      </section>
 
       <section id="emptyState" class="panel upload-empty-state">
         <div class="upload-symbol" aria-hidden="true">JSON</div>
@@ -69,6 +79,7 @@
       <footer><p id="playaramDataSource">JSONを選択すると、この画面上で集計します。</p><p>外部の戦績サービスやゲームクライアントには接続しません。</p></footer>
     </main>
     <script src="./playaram-core.js?v=20260819-4" defer></script>
-    <script src="./playaram.js?v=20260819-4" defer></script>
+    <script src="./playaram-remote.js?v=20261020-1" defer></script>
+    <script src="./playaram.js?v=20261020-1" defer></script>
   </body>
 </html>

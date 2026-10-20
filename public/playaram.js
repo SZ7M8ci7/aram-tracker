@@ -67,7 +67,17 @@ function renderChart() {
   const xAt = (index) => pad.l + (points.length === 1 ? innerW / 2 : innerW * index / (points.length - 1)); const yAt = (rate) => pad.t + innerH * (1 - (rate - yMin) / Math.max(1, yMax - yMin)); const coords = points.map((point, index) => [xAt(index), yAt(point.cumulativeRate)]); const gradient = ctx.createLinearGradient(0, pad.t, 0, height - pad.b); gradient.addColorStop(0, "rgba(82,217,208,.22)"); gradient.addColorStop(1, "rgba(82,217,208,0)"); ctx.beginPath(); coords.forEach(([x, y], index) => index ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.lineTo(coords.at(-1)[0], height - pad.b); ctx.lineTo(coords[0][0], height - pad.b); ctx.closePath(); ctx.fillStyle = gradient; ctx.fill(); ctx.beginPath(); coords.forEach(([x, y], index) => index ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.strokeStyle = "#52d9d0"; ctx.lineWidth = 2; ctx.stroke(); const last = coords.at(-1); ctx.fillStyle = "#52d9d0"; ctx.beginPath(); ctx.arc(last[0], last[1], 4, 0, Math.PI * 2); ctx.fill(); const movingCoords = points.map((point, index) => point.movingRate == null ? null : [xAt(index), yAt(point.movingRate)]).filter(Boolean); if (movingCoords.length) { ctx.beginPath(); movingCoords.forEach(([x, y], index) => index ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.strokeStyle = "#d7ad5b"; ctx.lineWidth = 2.5; ctx.stroke(); const movingLast = movingCoords.at(-1); ctx.fillStyle = "#d7ad5b"; ctx.beginPath(); ctx.arc(movingLast[0], movingLast[1], 4, 0, Math.PI * 2); ctx.fill(); } ctx.fillStyle = "#91a0b8"; ctx.fillText(points[0].date, pad.l, height - 8); ctx.fillText(points.at(-1).date, Math.max(pad.l, width - pad.r - 70), height - 8);
 }
 async function load() { if (!state.rawData) return; state.data = PlayaramCore.buildStatsFromData(state.rawData, { map: state.map, role: state.role, ...state.filters }, { champions: Object.fromEntries(state.champions.map((champion) => [champion.id, champion])) }); state.expanded = null; $("emptyState").classList.add("hidden"); $("dataContent").classList.remove("hidden"); $("compactSummary").classList.remove("hidden"); renderSummary(); renderChampions(); renderItems(); renderAugments(); renderOpponents(); renderUnused(); renderTeammates(); renderRecent(); renderChart(); notice(""); }
-async function uploadJson(file) { if (!file) return; notice(`${file.name} を読み込んでいます…`, "info"); state.sourceFile = file; state.rawData = PlayaramCore.validateData(JSON.parse(await file.text())); await load(); notice(`${state.data.profile?.riotId || state.data.profile?.name || file.name} を表示しました。`, "success"); }
+async function uploadJson(file) {
+  if (!file) return;
+  const generation = ++uploadGeneration;
+  notice(`${file.name} を読み込んでいます…`, "info");
+  const data = PlayaramCore.validateData(JSON.parse(await file.text()));
+  await assetsReady;
+  if (generation !== uploadGeneration) return;
+  state.sourceFile = file; state.rawData = data;
+  await load();
+  notice(`${state.data.profile?.riotId || state.data.profile?.name || file.name} を表示しました。`, "success");
+}
 async function loadAssets() { const [championsResponse, metaResponse, dictionaryResponse] = await Promise.all([fetch("./data/champions.json"), fetch("./data/champions.meta.json"), fetch("./data/playaram-dictionary.json")]); if (![championsResponse, metaResponse, dictionaryResponse].every((response) => response.ok)) throw new Error("表示用辞書を読み込めませんでした。"); const champions = await championsResponse.json(), meta = await metaResponse.json(); state.champions = Object.values(champions || {}); state.version = meta.version; state.dictionary = await dictionaryResponse.json(); }
 async function openUploadedMatch(link) { const detailWindow = window.open("about:blank", "_blank"); const url = new URL(link.href); const gameId = url.searchParams.get("gameId"); notice("試合詳細を準備しています…", "info"); const payload = PlayaramCore.getMatchFromData(state.rawData, gameId); if (!payload) { detailWindow?.close(); throw new Error("試合詳細を読み込めませんでした。"); } localStorage.setItem(`playaram-match:${gameId}`, JSON.stringify(payload)); if (detailWindow) detailWindow.location.href = link.href; else location.href = link.href; notice(""); }
 function collectFilters() { state.filters = { minGames: $("minGames").value, minWinRate: $("minWinRate").value, from: $("fromDate").value, to: $("toDate").value }; }
@@ -85,8 +95,29 @@ $("playaramOpponentRows").closest("table").querySelector("thead").addEventListen
 $("playaramTeammates").closest("table").querySelector("thead").addEventListener("click", (event) => { const h = event.target.closest("th[data-teammate-sort]"); if (!h) return; state.teammateDirection = state.teammateSort === h.dataset.teammateSort && state.teammateDirection === "desc" ? "asc" : "desc"; state.teammateSort = h.dataset.teammateSort; renderTeammates(); });
 $("playaramChampionRows").addEventListener("click", (event) => { if (event.target.closest("a")) return; const row = event.target.closest("tr.playaram-champion-row"); if (!row) return; state.expanded = state.expanded === row.dataset.champion ? null : row.dataset.champion; renderChampions(); });
 $("playaramChampionRows").addEventListener("keydown", (event) => { if (event.key !== "Enter" && event.key !== " ") return; const row = event.target.closest("tr.playaram-champion-row"); if (!row) return; event.preventDefault(); state.expanded = state.expanded === row.dataset.champion ? null : row.dataset.champion; renderChampions(); });
-document.addEventListener("click", (event) => { const link = event.target.closest('a[href*="playaram-match.html"]'); if (!link || !state.sourceFile) return; event.preventDefault(); openUploadedMatch(link).catch((error) => notice(error.message)); });
+document.addEventListener("click", (event) => { const link = event.target.closest('a[href*="playaram-match.html"]'); if (!link || !state.rawData) return; event.preventDefault(); openUploadedMatch(link).catch((error) => notice(error.message)); });
 document.querySelectorAll(".tab-button").forEach((button) => button.addEventListener("click", () => { state.tab = button.dataset.tab; document.querySelectorAll(".tab-button").forEach((b) => { const active = b === button; b.classList.toggle("active", active); b.setAttribute("aria-selected", String(active)); }); for (const [tab, panel] of Object.entries({ champions: "championTab", items: "itemTab", augments: "augmentTab", opponents: "opponentTab" })) { $(panel).hidden = state.tab !== tab; $(panel).classList.toggle("active", state.tab === tab); } }));
 window.addEventListener("resize", () => { if (state.data) renderChart(); });
-async function initialize() { await loadAssets(); }
+let uploadGeneration = 0;
+document.addEventListener("dragover", (event) => {
+  if (Array.from(event.dataTransfer?.types || []).includes("Files")) { event.preventDefault(); event.dataTransfer.dropEffect = "copy"; }
+});
+document.addEventListener("drop", async (event) => {
+  const files = Array.from(event.dataTransfer?.files || []);
+  if (!files.length) return;
+  event.preventDefault();
+  if (files.length !== 1 || !/\.json$/i.test(files[0].name)) { notice("戦績JSONファイルを1つドロップしてください。"); return; }
+  try { await uploadJson(files[0]); } catch (error) { notice(error.message); }
+});
+const assetsReady = loadAssets();
+async function initialize() {
+  await assetsReady;
+  const source = PlayaramRemote.parseSource(location.search);
+  if (!source) return;
+  $("sharedSource").classList.remove("hidden");
+  $("emptyState").classList.add("hidden");
+  $("sharedDriveLink").href = source.viewUrl;
+  $("sharedDriveLink").textContent = source.kind === "folder" ? "1. 共有フォルダーを開く" : "1. Google DriveでJSONを開く";
+  $("sharedInstructions").textContent = source.kind === "folder" ? "共有フォルダーで見たいユーザーのJSONをダウンロードし、このページにドロップしてください。" : "Google DriveでこのJSONをダウンロードし、このページにドロップしてください。";
+}
 initialize().catch((error) => notice(error.message));
